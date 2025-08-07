@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "./ui/button";
 // import AnimatedContent from "./AnimatedContent";
 // import ClientOnly from "./ClientOnly";
-import { useInView } from "../hooks/useInView";
+// import { useInView } from "../hooks/useInView";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from "react";
@@ -35,8 +35,8 @@ const topLinks = [
 ];
 
 export default function LaMaLanding() {
-  const [navRef, navInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
-  const [quoteRef, quoteInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
+  // const [navRef, navInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
+  // const [quoteRef, quoteInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
 
   useEffect(() => {
     AOS.init();
@@ -46,7 +46,7 @@ export default function LaMaLanding() {
     <div className="min-h-screen flex flex-col bg-white">
       {/* Announcement Bar */}
       <div className="w-full bg-black text-white text-xs sm:text-sm text-center py-2 px-2 sm:px-4">
-        Join LaMa Group in Supporting Children's Miracle Network Hospitals
+        Join LaMa Group in Supporting Children&apos;s Miracle Network Hospitals
       </div>
 
       {/* Top Navigation Links */}

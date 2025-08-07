@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "../../components/ui/button";
-import { useInView } from "../../hooks/useInView";
+// import { useInView } from "../../hooks/useInView";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from "react";
@@ -30,7 +30,7 @@ const topLinks = [
 ];
 
 export default function PrivacyPolicy() {
-  const [navRef, navInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
+  // const [navRef, navInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
 
   useEffect(() => {
     AOS.init();
@@ -40,7 +40,7 @@ export default function PrivacyPolicy() {
     <div className="min-h-screen flex flex-col bg-white">
       {/* Announcement Bar */}
       <div className="w-full bg-black text-white text-xs sm:text-sm text-center py-2 px-2 sm:px-4">
-        Join LaMa Group in Supporting Children's Miracle Network Hospitals
+        Join LaMa Group in Supporting Children&apos;s Miracle Network Hospitals
       </div>
 
       {/* Top Navigation Links */}
@@ -191,7 +191,7 @@ export default function PrivacyPolicy() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">7. Children's Privacy</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">7. Children&apos;s Privacy</h2>
               <p className="text-gray-700 mb-4">
                 Our services are not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.
               </p>
@@ -200,7 +200,7 @@ export default function PrivacyPolicy() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">8. Changes to This Policy</h2>
               <p className="text-gray-700 mb-4">
-                We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.
+                We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the &quot;Last updated&quot; date.
               </p>
             </section>
 
