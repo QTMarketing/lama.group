@@ -104,82 +104,82 @@ export default function LaMaLanding() {
       <HeroSection />
 
       {/* Services Section */}
-      <section className="bg-white text-black py-20">
+      <section className="bg-gray-50 text-black py-20">
         <div className="max-w-[1200px] mx-auto px-6 aos-init aos-animate" data-aos="fade-up">
           <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12">Services</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Store Leasing & Management */}
-            <div className="mx-4 my-6 w-[380px] md:w-[400px] h-[500px] md:h-[520px] bg-gray-200 rounded-xl p-8 flex flex-col items-center justify-between">
+            <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8 flex flex-col justify-between h-full hover:shadow-xl transition-shadow">
               <div className="w-full h-[180px] bg-gray-300 rounded-lg flex items-center justify-center mb-6">
                 <span className="text-gray-600 text-lg font-medium">Store Leasing & Management Image</span>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Store Leasing & Management</h3>
-              <p className="text-gray-700 mb-6 leading-relaxed text-center">
+              <p className="text-gray-700 mb-6 leading-relaxed text-center text-base sm:text-sm">
                 Comprehensive store leasing and management solutions for convenience stores and gas stations. 
                 Expert guidance through every step of the process.
               </p>
-              <div className="flex w-full justify-center mt-6">
-                <a href="#" className="inline-block bg-[#FF6600] text-white font-medium text-base px-6 py-2 rounded-full hover:bg-orange-600 transition-colors">Learn More</a>
+              <div className="flex w-full justify-center">
+                <a href="#" className="inline-block bg-orange-500 text-white font-medium text-sm px-6 py-2 rounded hover:bg-orange-600 transition-colors">Learn More</a>
               </div>
             </div>
 
             {/* Wholesale Distribution */}
-            <div className="mx-4 my-6 w-[380px] md:w-[400px] h-[500px] md:h-[520px] bg-gray-200 rounded-xl p-8 flex flex-col items-center justify-between">
+            <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8 flex flex-col justify-between h-full hover:shadow-xl transition-shadow">
               <div className="w-full h-[180px] bg-gray-300 rounded-lg flex items-center justify-center mb-6">
                 <span className="text-gray-600 text-lg font-medium">Wholesale Distribution Image</span>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Wholesale Distribution</h3>
-              <p className="text-gray-700 mb-6 leading-relaxed text-center">
+              <p className="text-gray-700 mb-6 leading-relaxed text-center text-base sm:text-sm">
                 Advanced wholesale distribution and supply chain solutions that power our network and beyond. 
                 Secure, reliable, and innovative solutions for business partners.
               </p>
-              <div className="flex w-full justify-center mt-6">
-                <a href="#" className="inline-block bg-[#FF6600] text-white font-medium text-base px-6 py-2 rounded-full hover:bg-orange-600 transition-colors">Learn More</a>
+              <div className="flex w-full justify-center">
+                <a href="#" className="inline-block bg-orange-500 text-white font-medium text-sm px-6 py-2 rounded hover:bg-orange-600 transition-colors">Learn More</a>
               </div>
             </div>
 
             {/* Fuel Branding & Supply */}
-            <div className="mx-4 my-6 w-[380px] md:w-[400px] h-[500px] md:h-[520px] bg-gray-200 rounded-xl p-8 flex flex-col items-center justify-between">
+            <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8 flex flex-col justify-between h-full hover:shadow-xl transition-shadow">
               <div className="w-full h-[180px] bg-gray-300 rounded-lg flex items-center justify-center mb-6">
                 <span className="text-gray-600 text-lg font-medium">Fuel Branding & Supply Image</span>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Fuel Branding & Supply</h3>
-              <p className="text-gray-700 mb-6 leading-relaxed text-center">
+              <p className="text-gray-700 mb-6 leading-relaxed text-center text-base sm:text-sm">
                 Premium fuel branding and supply solutions. Partner with trusted brands and ensure reliable 
                 fuel supply for your convenience store operations.
               </p>
-              <div className="flex w-full justify-center mt-6">
-                <a href="#" className="inline-block bg-[#FF6600] text-white font-medium text-base px-6 py-2 rounded-full hover:bg-orange-600 transition-colors">Learn More</a>
+              <div className="flex w-full justify-center">
+                <a href="#" className="inline-block bg-orange-500 text-white font-medium text-sm px-6 py-2 rounded hover:bg-orange-600 transition-colors">Learn More</a>
               </div>
             </div>
 
             {/* Construction & Renovation */}
-            <div className="mx-4 my-6 w-[380px] md:w-[400px] h-[500px] md:h-[520px] bg-gray-200 rounded-xl p-8 flex flex-col items-center justify-between">
+            <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8 flex flex-col justify-between h-full hover:shadow-xl transition-shadow">
               <div className="w-full h-[180px] bg-gray-300 rounded-lg flex items-center justify-center mb-6">
                 <span className="text-gray-600 text-lg font-medium">Construction & Renovation Image</span>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Construction & Renovation</h3>
-              <p className="text-gray-700 mb-6 leading-relaxed text-center">
+              <p className="text-gray-700 mb-6 leading-relaxed text-center text-base sm:text-sm">
                 Professional construction and renovation services for convenience stores and gas stations. 
                 From concept to completion, we handle every detail.
               </p>
-              <div className="flex w-full justify-center mt-6">
-                <a href="#" className="inline-block bg-[#FF6600] text-white font-medium text-base px-6 py-2 rounded-full hover:bg-orange-600 transition-colors">Learn More</a>
+              <div className="flex w-full justify-center">
+                <a href="#" className="inline-block bg-orange-500 text-white font-medium text-sm px-6 py-2 rounded hover:bg-orange-600 transition-colors">Learn More</a>
               </div>
             </div>
 
             {/* Maintenance & Support */}
-            <div className="mx-4 my-6 w-[380px] md:w-[400px] h-[500px] md:h-[520px] bg-gray-200 rounded-xl p-8 flex flex-col items-center justify-between">
+            <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8 flex flex-col justify-between h-full hover:shadow-xl transition-shadow">
               <div className="w-full h-[180px] bg-gray-300 rounded-lg flex items-center justify-center mb-6">
                 <span className="text-gray-600 text-lg font-medium">Maintenance & Support Image</span>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Maintenance & Support</h3>
-              <p className="text-gray-700 mb-6 leading-relaxed text-center">
+              <p className="text-gray-700 mb-6 leading-relaxed text-center text-base sm:text-sm">
                 Comprehensive maintenance and support services to keep your operations running smoothly. 
                 24/7 technical support and preventive maintenance programs.
               </p>
-              <div className="flex w-full justify-center mt-6">
-                <a href="#" className="inline-block bg-[#FF6600] text-white font-medium text-base px-6 py-2 rounded-full hover:bg-orange-600 transition-colors">Learn More</a>
+              <div className="flex w-full justify-center">
+                <a href="#" className="inline-block bg-orange-500 text-white font-medium text-sm px-6 py-2 rounded hover:bg-orange-600 transition-colors">Learn More</a>
               </div>
             </div>
           </div>
