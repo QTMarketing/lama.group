@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+# LaMa Group Website
+
+A modern Next.js website for LaMa Group convenience stores and gas stations.
+
 ## Getting Started
 
 First, run the development server:
