@@ -3,6 +3,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Base font family for the body */
+body {
+  font-family: 'Montserrat Regular', 'Montserrat Book', 'Mont Book Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
 /* Oldschool Grotesk Fonts */
 @font-face {
   font-family: 'Oldschool Grotesk';
@@ -55,11 +60,47 @@
   font-display: swap;
 }
 
+/* Mont Bold Font */
+@font-face {
+  font-family: 'MontBold';
+  src: url('/fonts/fonnts.com-mont-bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Right Grotesk Wide Medium Font */
+@font-face {
+  font-family: 'Right Grotesk Wide Medium';
+  src: url('/fonts/RightGrotesk-WideMedium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Oldschool Grotesk Compressed Medium Font */
+@font-face {
+  font-family: 'OldschoolGrotesk-CompressedMedium';
+  src: url('/fonts/OldschoolGrotesk-CompressedMedium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Oldschool Grotesk Condensed Bold Font */
 @font-face {
   font-family: 'OldschoolGrotesk-CondensedBold';
   src: url('/fonts/OldschoolGrotesk-CondensedBold.otf') format('opentype');
   font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto Medium Font */
+@font-face {
+  font-family: 'Roboto-Medium';
+  src: url('/fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
@@ -181,9 +222,9 @@
     @apply bg-background text-foreground;
   }
   
-  /* Apply Oldschool Grotesk font to all h2 elements */
+  /* Apply Roboto-Medium font to all h2 elements */
   h2 {
-    font-family: 'Oldschool Grotesk', sans-serif !important;
+    font-family: 'Roboto-Medium', sans-serif !important;
     font-size: 48px !important;
     letter-spacing: 3px !important;
     line-height: 56.7px !important;
@@ -226,6 +267,73 @@
   .font-oldschool-grotesk {
     font-family: 'Oldschool Grotesk', sans-serif !important;
   }
+  
+  /* Utility class for Oldschool Grotesk Compressed Medium font */
+  .font-compressed-medium {
+    font-family: 'OldschoolGrotesk-CompressedMedium', sans-serif !important;
+  }
+  
+  /* Utility class for Mont Bold font */
+  .font-mont-bold {
+    font-family: 'MontBold', sans-serif !important;
+  }
+  
+  /* Utility class for Roboto-Medium font */
+  .font-roboto-medium {
+    font-family: 'Roboto-Medium', sans-serif !important;
+  }
+
+  @keyframes lama-drift {
+    0%, 100% {
+      transform: translateX(0) scaleY(1);
+    }
+    50% {
+      transform: translateX(-2.5%) scaleY(1.04);
+    }
+  }
+
+  .animate-drift {
+    animation: lama-drift 18s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 55%;
+    will-change: transform;
+  }
+
+  /* Freeze motion for users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-drift { animation: none !important; }
+    svg.wave [animate] { display: none !important; }
+  }
+
+  /* Wave parallax animation (services hero) */
+  .onde {
+    position: relative;
+    width: 100%;
+    height: 15vh;
+    margin-bottom: -7px;
+    min-height: 100px;
+    max-height: 150px;
+  }
+  .parallaxonde > use {
+    animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+  }
+  .parallaxonde > use:nth-child(1) { animation-delay: -2s; animation-duration: 7s; }
+  .parallaxonde > use:nth-child(2) { animation-delay: -3s; animation-duration: 10s; }
+  .parallaxonde > use:nth-child(3) { animation-delay: -4s; animation-duration: 13s; }
+  .parallaxonde > use:nth-child(4) { animation-delay: -5s; animation-duration: 20s; }
+
+  @keyframes move-forever {
+    0%   { transform: translate3d(-90px,0,0); }
+    100% { transform: translate3d(85px,0,0); }
+  }
+
+  @media (max-width: 768px) {
+    .onde { height: 40px; min-height: 40px; }
+  }
+
+  /* Hide scrollbars utility (WebKit + Firefox) */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 }
 @keyframes rise-in {
   0% {
