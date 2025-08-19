@@ -9,6 +9,8 @@ import { QuickLinksBar } from "./navigation/QuickLinksBar";
 import { MainNavBar } from "./navigation/MainNavBar";
 import { Footer } from "./navigation/Footer";
 
+// VERCEL DEPLOYMENT FIX: This file contains all TypeScript fixes applied
+// Fixed onToggleMode prop destructuring - commit eac9fc9
 type AuthMode = 'login' | 'signup';
 
 interface AuthModalProps {
