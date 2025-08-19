@@ -19,7 +19,7 @@ interface AuthModalProps {
   onToggleMode: () => void;
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ open, mode, onClose, onSubmit }) => {
+const AuthModal: React.FC<AuthModalProps> = ({ open, mode, onClose, onSubmit, onToggleMode }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
