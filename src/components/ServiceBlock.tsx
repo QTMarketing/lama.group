@@ -9,9 +9,10 @@ type ServiceBlockProps = {
   body: string;
   images: { src: string; alt: string }[];
   reverse?: boolean; // if true, images left / text right
+  learnMoreLink?: string; // optional link for "Learn More" button
 };
 
-export function ServiceBlock({ title, titleColor, body, images, reverse = false }: ServiceBlockProps) {
+export function ServiceBlock({ title, titleColor, body, images, reverse = false, learnMoreLink }: ServiceBlockProps) {
   return (
     <section className="w-full">
       <div className={`grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-start max-w-[1200px] mx-auto px-6 md:px-10`}>
@@ -28,6 +29,17 @@ export function ServiceBlock({ title, titleColor, body, images, reverse = false 
           <p className="mt-4 text-[16px] md:text-[17px] text-[#4B5563] leading-[1.65] max-w-[460px]">
             {body}
           </p>
+          {learnMoreLink && (
+            <a
+              href={learnMoreLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center mt-6 text-[#FF4D00] font-semibold text-[16px] hover:text-[#FF6A2A] transition-colors group"
+            >
+              Learn More 
+              <span className="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+            </a>
+          )}
         </div>
 
         {/* Images */}

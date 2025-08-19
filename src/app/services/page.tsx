@@ -18,9 +18,12 @@ export default function ServicesPage() {
       {/* Hero Section */}
       <section id="hero" className="relative w-full bg-white min-h-[72vh] grid place-items-center overflow-hidden">
         <div className="relative mx-auto w-full max-w-[1860px] px-6 md:px-8 lg:px-10">
-          {/* Wave - OceanWave component sized and positioned like the old wave.svg */}
-          <div className="pointer-events-none absolute z-0 left-1/2 top-[52%] sm:top-[51%] lg:top-[50%] -translate-x-1/2 -translate-y-1/2 w-[140%] sm:w-[120%] h-[586.59px]">
-            <OceanWave className="w-full h-full" />
+          {/* Wave - behind text (using OceanWave component) */}
+          <div
+            className="pointer-events-none absolute z-0 left-1/2 top-[52%] sm:top-[51%] lg:top-[50%] -translate-x-1/2 -translate-y-1/2 w-[140%] sm:w-[120%] h-[586.59px]"
+            style={{ opacity: 0.1 }} // Overall opacity for the wave
+          >
+            <OceanWave width={1921} height={587} />
           </div>
 
           {/* Soft halo behind text for extra readability */}
@@ -64,19 +67,19 @@ export default function ServicesPage() {
             images={[
               { src: 'https://images.unsplash.com/photo-1544989164-31dc3c645987?q=80&w=1200&auto=format&fit=crop', alt: 'Warehouse with stacked boxes' },
               { src: 'https://images.unsplash.com/photo-1503435824048-a799a3a84bf7?q=80&w=1200&auto=format&fit=crop', alt: 'Forklift inside warehouse' },
-              { src: 'https://images.unsplash.com/photo-1515165562835-c3b8f0b78146?q=80&w=1200&auto=format&fit=crop', alt: 'Distribution center aisle' },
             ]}
+            learnMoreLink="https://quicktrackfuel.com"
           />
 
           <ServiceBlock
             title="Fuel Branding & Supply"
             titleColor="orange"
-            body="Premium branding partnerships and dependable fuel supply programs that elevate your station’s presence and performance. We help you align with trusted brands and streamline logistics."
+            body="Premium branding partnerships and dependable fuel supply programs that elevate your station's presence and performance. We help you align with trusted brands and streamline logistics."
             images={[
               { src: 'https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1200&auto=format&fit=crop', alt: 'Fuel station canopy at night' },
               { src: 'https://images.unsplash.com/photo-1522403236043-562d8186e17e?q=80&w=1200&auto=format&fit=crop', alt: 'Gas station pumps' },
-              { src: 'https://images.unsplash.com/photo-1599110903018-3df5f93a3b9f?q=80&w=1200&auto=format&fit=crop', alt: 'Fuel branding signage' },
             ]}
+            learnMoreLink="https://quicktrackfuel.com"
           />
 
           <ServiceBlock

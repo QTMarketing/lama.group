@@ -2,13 +2,12 @@
 
 import React from 'react';
 
-type OceanWaveProps = {
-  className?: string;
-};
+interface OceanWaveProps {
+  width: number;
+  height: number;
+}
 
-export default function OceanWave({ className }: OceanWaveProps) {
-  const width = 1921;
-  const height = 587; // match wave.svg size
+export default function OceanWave({ width, height }: OceanWaveProps) {
   const lines = 30;
   const amplitude = 80;
   const frequency = 0.008;
@@ -46,13 +45,12 @@ export default function OceanWave({ className }: OceanWaveProps) {
   const gradientId = React.useId();
 
   return (
-    <div className={className}>
+    <div className="w-full overflow-hidden">
       <svg
         viewBox={`0 0 ${width} ${height}`}
         role="img"
         aria-label="Decorative ocean wave"
-        className="block w-full h-full"
-        preserveAspectRatio="xMidYMid slice"
+        className="block w-full h-auto"
       >
         {fadeSides && (
           <defs>

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import 'locomotive-scroll/dist/locomotive-scroll.css';
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 

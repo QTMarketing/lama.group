@@ -1,42 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LaMa Group - Next.js Application
 
-# LaMa Group Website
+A modern corporate website built with Next.js 15, TypeScript, and Tailwind CSS.
 
-A modern Next.js website for LaMa Group convenience stores and gas stations.
+## 🚀 Features
 
-## Getting Started
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Modern UI**: Clean, professional design with custom animations
+- **Authentication**: Firebase-based user authentication system
+- **Performance**: Optimized for speed and SEO
+- **TypeScript**: Full type safety throughout the application
 
-First, run the development server:
+## 🛠️ Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Authentication**: Firebase
+- **Icons**: Lucide React
+- **UI Components**: Radix UI
+- **Carousel**: Embla Carousel
+- **Animations**: GSAP, AOS
+
+## 📁 Project Structure
+
+```
+src/
+├── app/                 # Next.js App Router pages
+├── components/          # Reusable React components
+├── context/            # React context providers
+├── lib/                # Utility functions and configurations
+└── types/              # TypeScript type definitions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Vercel (Recommended)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Connect Repository**: Connect your GitHub repository to Vercel
+2. **Environment Variables**: Set Firebase configuration in Vercel dashboard
+3. **Build Command**: `npm run build`
+4. **Output Directory**: `.next`
+5. **Install Command**: `npm install`
 
-## Learn More
+### Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Create a `.env.local` file with your Firebase configuration:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📱 Pages
 
-## Deploy on Vercel
+- **Home** (`/`) - Landing page with hero section
+- **Services** (`/services`) - Service offerings with interactive cards
+- **Contact** (`/contact`) - Contact form and information
+- **About** (`/who-we-are`) - Company information
+- **Store Leasing** (`/store-leasing`) - Leasing services
+- **Leasing Details** (`/leasing/[slug]`) - Individual property pages
+- **Authentication** (`/login`, `/signup`) - User authentication
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎨 Customization
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# Force deployment
-# Deployment trigger Thu Aug  7 18:49:23 +0545 2025
+### Colors
+- **Primary Orange**: `#FF4D00`
+- **Text Dark**: `#111111`
+- **Text Gray**: `#4B5563`
+
+### Fonts
+- **Primary**: Inter (system fallback)
+- **Secondary**: Montserrat, Oldschool Grotesk, Roboto
+
+## 🔧 Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Run linting
+npm run lint
+```
+
+## 📊 Performance
+
+- **First Load JS**: ~99.7 kB
+- **Homepage**: 13.1 kB
+- **Services Page**: 5.54 kB
+- **Optimized Images**: Responsive and optimized
+- **Lazy Loading**: Components load on demand
+
+## 🌐 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## 📄 License
+
+Private - LaMa Group
