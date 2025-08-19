@@ -6,7 +6,7 @@ export default function ScrollProvider({ children }: PropsWithChildren) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    let scroll: any;
+    let scroll: unknown;
     let update: (() => void) | null = null;
 
     (async () => {
@@ -18,13 +18,13 @@ export default function ScrollProvider({ children }: PropsWithChildren) {
         tablet: { smooth: true },
       });
       // Optional: update when wave is injected
-      update = () => scroll && scroll.update();
+      update = () => scroll && (scroll as any).update();
       document.addEventListener('wave-injected', update);
     })();
 
     return () => {
       if (update) document.removeEventListener('wave-injected', update);
-      try { scroll?.destroy(); } catch {}
+      try { (scroll as any)?.destroy(); } catch {}
     };
   }, []);
 

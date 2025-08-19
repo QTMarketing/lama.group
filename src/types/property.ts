@@ -26,7 +26,7 @@ export interface PropertyDoc {
   houseRules?: string[];
   faqs?: Array<{ q: string; a: string }>;
   contact?: { email?: string; phone?: string };
-  createdAt?: any;
-  updatedAt?: any;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   isFeatured?: boolean;
 } 

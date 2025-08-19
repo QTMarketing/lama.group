@@ -58,10 +58,11 @@ export default function LoginPage() {
       // Redirect to dashboard or home page after successful login
       router.push('/');
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Login error:', error);
       
-      switch (error.code) {
+      const authError = error as { code?: string };
+      switch (authError.code) {
         case 'auth/user-not-found':
           setSubmitError('No account found with this email address');
           break;

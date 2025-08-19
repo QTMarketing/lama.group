@@ -25,7 +25,7 @@ export const AuthExample: React.FC = () => {
       setEmail('');
       setPassword('');
       setDisplayName('');
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message || 'An error occurred');
     }
   };
@@ -33,7 +33,7 @@ export const AuthExample: React.FC = () => {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message || 'Google sign-in failed');
     }
   };
@@ -47,7 +47,7 @@ export const AuthExample: React.FC = () => {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       return result;
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message || 'Google sign-in failed');
       throw err;
     }

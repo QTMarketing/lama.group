@@ -160,11 +160,12 @@ export default function SignUpPage() {
         router.push('/login');
       }, 5000);
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Sign-up error:', error);
       
       // Handle specific Firebase errors
-      switch (error.code) {
+      const authError = error as { code?: string };
+      switch (authError.code) {
         case 'auth/email-already-in-use':
           setSubmitError('An account with this email already exists');
           break;
@@ -195,7 +196,7 @@ export default function SignUpPage() {
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Account Created Successfully!</h1>
           
           <p className="text-gray-600 mb-6">
-            We've sent a verification email to <strong>{formData.email}</strong>. 
+            We&apos;ve sent a verification email to <strong>{formData.email}</strong>. 
             Please check your inbox and click the verification link to activate your account.
           </p>
           

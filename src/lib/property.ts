@@ -39,4 +39,4 @@ export function addressToString(location: PropertyDoc['location']): string {
   return parts.join(', ');
 }
 
-export const gated = (user: any) => !user; 
+export const gated = (user: unknown) => !user; 

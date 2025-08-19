@@ -90,7 +90,7 @@ export default function WhoWeArePage() {
                 Our Mission
               </h3>
               <p className="text-lg text-white leading-relaxed">
-                At LaMa Group, our mission is simple: to be the most trusted and convenient choice for communities across Texas. With over 100 stores serving neighborhoods big and small, we aim to deliver fast service, quality products, and a friendly smile—every single time. We're committed to keeping shelves stocked, prices fair, and doors open when our customers need us most. Our goal is to make every visit quick, easy, and worth coming back for.
+                At LaMa Group, our mission is simple: to be the most trusted and convenient choice for communities across Texas. With over 100 stores serving neighborhoods big and small, we aim to deliver fast service, quality products, and a friendly smile—every single time. We&apos;re committed to keeping shelves stocked, prices fair, and doors open when our customers need us most. Our goal is to make every visit quick, easy, and worth coming back for.
               </p>
               </div>
               
@@ -142,7 +142,7 @@ export default function WhoWeArePage() {
                 Our Mission
               </h3>
               <p className="text-base text-white leading-relaxed">
-                At LaMa Group, our mission is simple: to be the most trusted and convenient choice for communities across Texas. With over 100 stores serving neighborhoods big and small, we aim to deliver fast service, quality products, and a friendly smile—every single time. We're committed to keeping shelves stocked, prices fair, and doors open when our customers need us most. Our goal is to make every visit quick, easy, and worth coming back for.
+                At LaMa Group, our mission is simple: to be the most trusted and convenient choice for communities across Texas. With over 100 stores serving neighborhoods big and small, we aim to deliver fast service, quality products, and a friendly smile—every single time. We&apos;re committed to keeping shelves stocked, prices fair, and doors open when our customers need us most. Our goal is to make every visit quick, easy, and worth coming back for.
               </p>
             </div>
             <div className="w-full max-w-md h-64 bg-gray-800 rounded-2xl overflow-hidden flex items-center justify-center text-white text-base">
@@ -192,7 +192,7 @@ export default function WhoWeArePage() {
                 Our Mission
               </h3>
               <p className="text-sm text-white leading-relaxed">
-                At LaMa Group, our mission is simple: to be the most trusted and convenient choice for communities across Texas. With over 100 stores serving neighborhoods big and small, we aim to deliver fast service, quality products, and a friendly smile—every single time. We're committed to keeping shelves stocked, prices fair, and doors open when our customers need us most. Our goal is to make every visit quick, easy, and worth coming back for.
+                At LaMa Group, our mission is simple: to be the most trusted and convenient choice for communities across Texas. With over 100 stores serving neighborhoods big and small, we aim to deliver fast service, quality products, and a friendly smile—every single time. We&apos;re committed to keeping shelves stocked, prices fair, and doors open when our customers need us most. Our goal is to make every visit quick, easy, and worth coming back for.
               </p>
             </div>
             <div className="w-full h-48 bg-gray-800 rounded-xl overflow-hidden flex items-center justify-center text-white text-sm">
