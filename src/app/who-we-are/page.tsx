@@ -217,7 +217,7 @@ export default function WhoWeArePage() {
             <div className="flex-1 max-w-[500px] z-[1] min-w-0">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#1A1A1A]">Why LaMa?</h2>
               <p className="text-[16px] text-[#666666] mb-5 leading-relaxed">
-                We're more than just a service provider — we&apos;re your complete convenience store and gas station partner, delivering end-to-end solutions that drive your business forward.
+                We&apos;re more than just a service provider — we&apos;re your complete convenience store and gas station partner, delivering end-to-end solutions that drive your business forward.
               </p>
               <ul className="list-disc pl-5 space-y-3 marker:text-[#FF4D00] text-[#1A1A1A]">
                 <li>24/7 support and maintenance services</li>
