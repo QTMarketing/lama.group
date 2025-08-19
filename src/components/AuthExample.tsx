@@ -3,6 +3,19 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 
+const getErrorMessage = (error: unknown): string => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  if (typeof error === 'string') {
+    return error;
+  }
+  if (error && typeof error === 'object' && 'message' in error) {
+    return String(error.message);
+  }
+  return 'An error occurred';
+};
+
 export const AuthExample: React.FC = () => {
   const { user, loading, signIn, signUp, signOutUser, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
@@ -26,7 +39,7 @@ export const AuthExample: React.FC = () => {
       setPassword('');
       setDisplayName('');
     } catch (err: unknown) {
-      setError(err.message || 'An error occurred');
+      setError(getErrorMessage(err));
     }
   };
 
@@ -34,7 +47,7 @@ export const AuthExample: React.FC = () => {
     try {
       await signInWithGoogle();
     } catch (err: unknown) {
-      setError(err.message || 'Google sign-in failed');
+      setError(getErrorMessage(err));
     }
   };
 
@@ -48,7 +61,7 @@ export const AuthExample: React.FC = () => {
       const result = await signInWithPopup(auth, provider);
       return result;
     } catch (err: unknown) {
-      setError(err.message || 'Google sign-in failed');
+      setError(getErrorMessage(err));
       throw err;
     }
   };
