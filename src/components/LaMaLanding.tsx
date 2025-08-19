@@ -209,10 +209,15 @@ const AuthModal: React.FC<AuthModalProps> = ({ open, mode, onClose, onSubmit }) 
 };
 
 export default function LaMaLanding() {
+<<<<<<< HEAD
   const [navRef, navInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
   const [quoteRef, quoteInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
   const [authOpen, setAuthOpen] = useState<boolean>(false);
   const [authMode, setAuthMode] = useState<AuthMode>('login');
+=======
+  // const [navRef, navInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
+  // const [quoteRef, quoteInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
+>>>>>>> 6ce931ad95e11217f154f0466e0a30a7494c9228
 
   useEffect(() => {
     AOS.init();
@@ -220,8 +225,15 @@ export default function LaMaLanding() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
+<<<<<<< HEAD
       {/* Top Navigation Bar */}
       <TopNavBar />
+=======
+      {/* Announcement Bar */}
+      <div className="w-full bg-black text-white text-xs sm:text-sm text-center py-2 px-2 sm:px-4">
+        Join LaMa Group in Supporting Children&apos;s Miracle Network Hospitals
+      </div>
+>>>>>>> 6ce931ad95e11217f154f0466e0a30a7494c9228
 
       {/* Quick Links Bar */}
       <QuickLinksBar />
