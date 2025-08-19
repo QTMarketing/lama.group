@@ -54,7 +54,7 @@ export default function WhoWeArePage() {
                 Our Motto: Your Stop for Everything
               </h3>
               <p className="text-lg text-white leading-relaxed">
-                From snacks and drinks to everyday essentials, we've got it all under one roof. Whether you're fueling up, grabbing a quick bite, or picking up last-minute items, we're here to make life easier—anytime you need us.
+                From snacks and drinks to everyday essentials, we&apos;ve got it all under one roof. Whether you&apos;re fueling up, grabbing a quick bite, or picking up last-minute items, we&apos;re here to make life easier—anytime you need us.
               </p>
             </div>
             
@@ -112,7 +112,7 @@ export default function WhoWeArePage() {
                 Our Motto: Your Stop for Everything
               </h3>
               <p className="text-base text-white leading-relaxed">
-                From snacks and drinks to everyday essentials, we've got it all under one roof. Whether you're fueling up, grabbing a quick bite, or picking up last-minute items, we're here to make life easier—anytime you need us.
+                From snacks and drinks to everyday essentials, we&apos;ve got it all under one roof. Whether you&apos;re fueling up, grabbing a quick bite, or picking up last-minute items, we&apos;re here to make life easier—anytime you need us.
               </p>
             </div>
             <div className="w-full max-w-md h-64 bg-gray-800 rounded-2xl overflow-hidden flex items-center justify-center text-white text-base">
@@ -162,7 +162,7 @@ export default function WhoWeArePage() {
                 Our Motto: Your Stop for Everything
               </h3>
               <p className="text-sm text-white leading-relaxed">
-                From snacks and drinks to everyday essentials, we've got it all under one roof. Whether you're fueling up, grabbing a quick bite, or picking up last-minute items, we're here to make life easier—anytime you need us.
+                From snacks and drinks to everyday essentials, we&apos;ve got it all under one roof. Whether you&apos;re fueling up, grabbing a quick bite, or picking up last-minute items, we&apos;re here to make life easier—anytime you need us.
               </p>
             </div>
             <div className="w-full h-48 bg-gray-800 rounded-xl overflow-hidden flex items-center justify-center text-white text-sm">
@@ -217,7 +217,7 @@ export default function WhoWeArePage() {
             <div className="flex-1 max-w-[500px] z-[1] min-w-0">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#1A1A1A]">Why LaMa?</h2>
               <p className="text-[16px] text-[#666666] mb-5 leading-relaxed">
-                We're more than just a service provider — we're your complete convenience store and gas station partner, delivering end-to-end solutions that drive your business forward.
+                We're more than just a service provider — we&apos;re your complete convenience store and gas station partner, delivering end-to-end solutions that drive your business forward.
               </p>
               <ul className="list-disc pl-5 space-y-3 marker:text-[#FF4D00] text-[#1A1A1A]">
                 <li>24/7 support and maintenance services</li>

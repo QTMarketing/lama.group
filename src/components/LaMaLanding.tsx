@@ -1,12 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { useInView } from "../hooks/useInView";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import StoreLocator from "./StoreLocator";
 import HeroSection from "./HeroSection";
-import { BentoCard, BentoGrid } from "./magicui/bento-grid";
 import { TopNavBar } from "./navigation/TopNavBar";
 import { QuickLinksBar } from "./navigation/QuickLinksBar";
 import { MainNavBar } from "./navigation/MainNavBar";
@@ -188,7 +185,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ open, mode, onClose, onSubmit }) 
           <p className="text-sm text-gray-600">
             {mode === 'login' ? (
               <>
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <button onClick={handleToggleMode} className="text-[#007BFF] hover:underline font-medium">
                   Sign up
                 </button>
@@ -209,15 +206,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ open, mode, onClose, onSubmit }) 
 };
 
 export default function LaMaLanding() {
-<<<<<<< HEAD
-  const [navRef, navInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
-  const [quoteRef, quoteInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
   const [authOpen, setAuthOpen] = useState<boolean>(false);
   const [authMode, setAuthMode] = useState<AuthMode>('login');
-=======
-  // const [navRef, navInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
-  // const [quoteRef, quoteInView] = useInView({ threshold: 0.1 }, false) as [React.RefObject<HTMLDivElement>, boolean];
->>>>>>> 6ce931ad95e11217f154f0466e0a30a7494c9228
 
   useEffect(() => {
     AOS.init();
@@ -225,15 +215,8 @@ export default function LaMaLanding() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-<<<<<<< HEAD
       {/* Top Navigation Bar */}
       <TopNavBar />
-=======
-      {/* Announcement Bar */}
-      <div className="w-full bg-black text-white text-xs sm:text-sm text-center py-2 px-2 sm:px-4">
-        Join LaMa Group in Supporting Children&apos;s Miracle Network Hospitals
-      </div>
->>>>>>> 6ce931ad95e11217f154f0466e0a30a7494c9228
 
       {/* Quick Links Bar */}
       <QuickLinksBar />
@@ -339,7 +322,7 @@ export default function LaMaLanding() {
                 <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Maintenance & Support</h3>
                 <p className="text-gray-700 mb-6 leading-relaxed text-center">
                   Ongoing maintenance and support services to keep your operations running smoothly. 
-                  We're here when you need us, ensuring minimal downtime and maximum efficiency.
+                  We&apos;re here when you need us, ensuring minimal downtime and maximum efficiency.
                 </p>
                 <div className="flex w-full justify-center mt-6">
                   <a href="#" className="inline-block bg-[#FF6600] text-white font-medium text-base px-6 py-2 rounded-full hover:bg-orange-600 transition-colors">Learn More</a>
@@ -358,7 +341,7 @@ export default function LaMaLanding() {
             <h2 className="text-5xl lg:text-6xl font-bold leading-tight mb-6">
               Why <span className="text-[#FF6600]">LaMa</span> Group is the Right Choice for You
             </h2>
-            <p className="text-gray-600 text-lg mb-8 leading-relaxed">For years, we've been committed to delivering quality, value, and service that exceeds expectations for convenience store owners across Texas.</p>
+            <p className="text-gray-600 text-lg mb-8 leading-relaxed">For years, we&apos;ve been committed to delivering quality, value, and service that exceeds expectations for convenience store owners across Texas.</p>
             <div className="flex flex-wrap gap-5">
               <a href="tel:+1XXXYYYZZZZ" className="text-orange-500 font-semibold text-decoration-none hover:text-orange-600 transition-colors">Call Now →</a>
               <a href="/estimate" className="text-orange-500 font-semibold text-decoration-none hover:text-orange-600 transition-colors">Learn More →</a>
@@ -371,7 +354,7 @@ export default function LaMaLanding() {
             <div className="bg-white p-6 rounded-xl shadow-md hover:scale-105 transition-transform duration-300 flex flex-col">
               <div className="text-3xl mb-4">🛠️</div>
               <h3 className="text-xl font-bold mb-3 text-black">Comprehensive Support</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">From planning to execution, we provide full-service support tailored to your goals. You're never alone in your journey.</p>
+              <p className="text-gray-600 text-sm leading-relaxed">From planning to execution, we provide full-service support tailored to your goals. You&apos;re never alone in your journey.</p>
             </div>
             
             {/* Industry Expertise */}
