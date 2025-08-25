@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { TopNavBar } from "@/components/navigation/TopNavBar";
+import { QuickLinksBar } from "@/components/navigation/QuickLinksBar";
+import { MainNavBar } from "@/components/navigation/MainNavBar";
+import { Footer } from "@/components/navigation/Footer";
 
 export const metadata: Metadata = {
   title: "LaMa Group - Modern Corporate Solutions",
@@ -21,7 +25,24 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-white text-[#111] antialiased">
         <AuthProvider>
-          {children}
+          <div className="min-h-screen flex flex-col bg-white">
+            {/* Top Navigation Bar */}
+            <TopNavBar />
+
+            {/* Quick Links Bar */}
+            <QuickLinksBar />
+
+            {/* Main Navigation Bar */}
+            <MainNavBar />
+
+            {/* Page Content */}
+            <main className="flex-1">
+              {children}
+            </main>
+
+            {/* Footer */}
+            <Footer />
+          </div>
         </AuthProvider>
       </body>
     </html>

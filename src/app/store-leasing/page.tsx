@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { PageTemplate } from '@/components/templates/PageTemplate';
 
 // Property data
 const propertyData = {
@@ -25,8 +24,6 @@ const propertyData = {
     { id: 14, slug: '3421-cimmaron-trail-suite-117-fort-worth', address: '3421 Cimmaron Trail Suite 117, Fort Worth, TX 76116', size: '3300 sq. ft.', price: 3025, type: 'For Lease', contact: '817.618.0424', email: 'susanna@quicktrackinc.com' }
   ]
 };
-
-
 
 export default function StoreLeasingPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -136,8 +133,7 @@ export default function StoreLeasingPage() {
   };
 
   return (
-    <PageTemplate>
-
+    <div className="min-h-screen bg-white">
       {/* Page Header */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 py-20 lg:py-24 px-4">
         <div className="max-w-7xl mx-auto text-center">
@@ -244,7 +240,7 @@ export default function StoreLeasingPage() {
                 <option value="all">All Sizes</option>
                 <option value="small">Small (≤1200 sq ft / ≤0.5 acres)</option>
                 <option value="medium">Medium (1200-2000 sq ft)</option>
-                <option value="large">Large (&gt;2000 sq ft / &gt;0.5 acres)</option>
+                <option value="large">&gt;2000 sq ft / &gt;0.5 acres)</option>
               </select>
             </div>
 
@@ -405,7 +401,6 @@ export default function StoreLeasingPage() {
               )}
             </div>
         </div>
-
-    </PageTemplate>
+    </div>
   );
 } 

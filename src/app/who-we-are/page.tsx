@@ -1,11 +1,10 @@
 'use client';
 
-import { PageTemplate } from '@/components/templates/PageTemplate';
 import Image from 'next/image';
 
 export default function WhoWeArePage() {
   return (
-    <PageTemplate>
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="py-20 px-6 bg-gradient-to-br from-orange-50 to-white">
         <div className="max-w-7xl mx-auto">
@@ -239,7 +238,6 @@ export default function WhoWeArePage() {
           </div>
         </div>
       </section>
-
-    </PageTemplate>
+    </div>
   );
 } 

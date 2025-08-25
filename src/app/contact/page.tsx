@@ -1,10 +1,8 @@
 'use client';
 
-import { PageTemplate } from '@/components/templates/PageTemplate';
-
 export default function ContactPage() {
   return (
-    <PageTemplate>
+    <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">Contact Us</h1>
         <p className="text-lg text-gray-600 mb-8">
@@ -38,6 +36,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-    </PageTemplate>
+    </div>
   );
 } 
