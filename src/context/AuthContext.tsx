@@ -40,6 +40,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check if auth is available
+    if (!auth) {
+      setLoading(false);
+      setUser(null);
+      return;
+    }
+
     // Listen for auth state changes
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
@@ -64,6 +71,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Sign in with email and password
   const signIn = async (email: string, password: string): Promise<User> => {
+    if (!auth) {
+      throw new Error('Firebase authentication is not configured');
+    }
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       return userCredential.user;
@@ -75,6 +85,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Sign up with email, password, and display name
   const signUp = async (email: string, password: string, displayName: string): Promise<User> => {
+    if (!auth) {
+      throw new Error('Firebase authentication is not configured');
+    }
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       
@@ -94,6 +107,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Sign out
   const signOutUser = async (): Promise<void> => {
+    if (!auth) {
+      throw new Error('Firebase authentication is not configured');
+    }
     try {
       await signOut(auth);
     } catch (error) {
@@ -104,6 +120,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Sign in with Google
   const signInWithGoogle = async (): Promise<User> => {
+    if (!auth) {
+      throw new Error('Firebase authentication is not configured');
+    }
     try {
       const provider = new GoogleAuthProvider();
       const userCredential = await signInWithPopup(auth, provider);
