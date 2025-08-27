@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface FormData {
   firstName: string;
@@ -23,24 +24,6 @@ interface FormErrors {
 
 export default function SignUpPage() {
   const router = useRouter();
-  
-  // Check if Firebase is configured
-  if (!auth) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600 mb-6">
-            Sign-up functionality is currently unavailable. Please try again later.
-          </p>
-          <a href="/" className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            Return Home
-          </a>
-        </div>
-      </div>
-    );
-  }
-  
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -204,6 +187,23 @@ export default function SignUpPage() {
       setIsLoading(false);
     }
   };
+
+  // Check if Firebase is configured - after all hooks
+  if (!auth) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
+          <p className="text-gray-600 mb-6">
+            Sign-up functionality is currently unavailable. Please try again later.
+          </p>
+          <Link href="/" className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            Return Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (isSuccess) {
     return (
