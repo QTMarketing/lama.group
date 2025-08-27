@@ -4,6 +4,11 @@ import { PropertyDoc } from '@/types/property';
 
 export async function getPropertyBySlug(slug: string): Promise<PropertyDoc | null> {
   try {
+    if (!db) {
+      console.warn('Firebase Firestore is not configured');
+      return null;
+    }
+    
     const docRef = doc(db, "properties", slug);
     const docSnap = await getDoc(docRef);
     
