@@ -33,7 +33,7 @@ export default function StatusBar() {
 
         <div className="testimonial">
           <blockquote>
-            Lama Group's fixed income technology has fundamentally transformed our trading operations. The platform's scalability and efficiency have delivered unprecedented performance improvements across our entire bond portfolio.
+            Lama Group&apos;s fixed income technology has fundamentally transformed our trading operations. The platform&apos;s scalability and efficiency have delivered unprecedented performance improvements across our entire bond portfolio.
           </blockquote>
           <p className="author">Sarah Johnson</p>
           <p className="title">Chief Investment Officer, Global Asset Management</p>

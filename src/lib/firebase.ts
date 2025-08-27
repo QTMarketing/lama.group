@@ -41,7 +41,7 @@ export const storage: FirebaseStorage = getStorage(firebaseApp);
 // Enable offline persistence for Firestore
 if (typeof window !== 'undefined') {
   // Enable offline persistence in browser environment
-  import('firebase/firestore').then(({ enableNetwork, enableIndexedDbPersistence }) => {
+  import('firebase/firestore').then(({ enableIndexedDbPersistence }) => {
     enableIndexedDbPersistence(db).catch((err) => {
       if (err.code === 'failed-precondition') {
         console.warn('Multiple tabs open, persistence can only be enabled in one tab at a time.');
