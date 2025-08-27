@@ -1,9 +1,9 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function LoginPage() {
+function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const sp = useSearchParams();
@@ -39,5 +39,13 @@ export default function LoginPage() {
         <button type="submit" className="w-full py-2 bg-black text-white rounded">Sign in</button>
       </form>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="max-w-sm mx-auto mt-10 p-6 text-sm text-gray-500">Loading…</div>}>
+      <LoginForm />
+    </Suspense>
   );
 } 

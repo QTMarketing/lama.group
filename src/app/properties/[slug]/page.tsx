@@ -15,11 +15,12 @@ const QUERY = `
   }
 `;
 
-export default async function PropertyPage({ params }: { params: { slug: string } }) {
+export default async function PropertyPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const session = await getServerSession(authOptions);
   const accessToken = (session as any)?.accessToken as string | undefined;
 
-  const data = await wpRequest<{ property: any }>(QUERY, { slug: params.slug }, accessToken);
+  const data = await wpRequest<{ property: any }>(QUERY, { slug }, accessToken);
   const p = data?.property;
 
   if (!p) {
@@ -42,7 +43,7 @@ export default async function PropertyPage({ params }: { params: { slug: string 
               {p.currency} {Number(p.price).toLocaleString()}
             </span>
           ) : (
-            <Link href={`/login?callbackUrl=/properties/${params.slug}`} className="px-4 py-2 rounded bg-black text-white">
+            <Link href={`/login?callbackUrl=/properties/${slug}`} className="px-4 py-2 rounded bg-black text-white">
               Log in to view price
             </Link>
           )}

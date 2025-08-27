@@ -41,7 +41,7 @@ export default function WhoWeArePage() {
       </section>
 
       {/* New Responsive Layout - Three Sections */}
-      <section className="bg-[#FF4500] py-0">
+      <section className="bg-[#FE6600] py-0">
         {/* Desktop Layout - 1680px container with edge images */}
         <div className="hidden lg:block w-[1680px] pl-[360px] pr-[360px] mx-auto relative">
           
