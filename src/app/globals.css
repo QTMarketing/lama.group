@@ -4,7 +4,14 @@
 
 /* Base font family for the body */
 body {
-  font-family: 'Montserrat Regular', 'Montserrat Book', 'Mont Book Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inter-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* CSS Custom Properties for font mapping */
+:root {
+  --font-mont-semibold: 'Inter-Medium', sans-serif;
+  --font-body: 'Inter-Medium', sans-serif;
+  --font-nav: 'Inter-Medium', sans-serif;
 }
 
 /* Oldschool Grotesk Fonts */
@@ -28,24 +35,6 @@ body {
   font-family: 'Oldschool Grotesk Compressed Medium';
   src: url('/fonts/OldschoolGrotesk-CompressedMedium.otf') format('opentype');
   font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Montserrat Book Font */
-@font-face {
-  font-family: 'Montserrat Book';
-  src: url('/fonts/Montserrat-Book.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Montserrat Regular Font */
-@font-face {
-  font-family: 'Montserrat Regular';
-  src: url('/fonts/Montserrat-Regular.otf') format('opentype');
-  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
@@ -104,6 +93,15 @@ body {
   font-display: swap;
 }
 
+/* Inter Medium Font */
+@font-face {
+  font-family: 'Inter-Medium';
+  src: url('/fonts/Inter-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   * {
     border: 0;
@@ -122,9 +120,14 @@ body {
     line-height: 56.7px !important;
   }
   
+  /* Apply Inter-Medium font to all paragraphs */
+  p {
+    font-family: 'Inter-Medium', sans-serif !important;
+  }
+  
   /* Top Navigation Bar Typography */
   .top-nav a {
-    font-family: 'Mont Book Regular', sans-serif !important;
+    font-family: 'Inter-Medium', sans-serif !important;
     font-size: 16px !important;
     line-height: 38px !important;
     letter-spacing: 0px !important;
@@ -132,7 +135,7 @@ body {
   
   /* Main Navigation Bar Typography */
   .main-nav a {
-    font-family: 'Mont Book Regular', sans-serif !important;
+    font-family: 'Inter-Medium', sans-serif !important;
     font-size: 14px !important;
     line-height: 24px !important;
     letter-spacing: 0px !important;
@@ -140,7 +143,7 @@ body {
   
   /* Bottom Navigation Bar Typography */
   .bottom-nav a {
-    font-family: 'Oldschool Grotesk Compressed Bold', sans-serif !important;
+    font-family: 'Inter-Medium', sans-serif !important;
     font-size: 26px !important;
     line-height: 36px !important;
     letter-spacing: 0px !important;
@@ -165,6 +168,11 @@ body {
     font-family: 'OldschoolGrotesk-CompressedMedium', sans-serif !important;
   }
   
+  /* Utility class for Mont Book Regular font */
+  .font-mont-book {
+    font-family: 'Mont Book Regular', sans-serif !important;
+  }
+  
   /* Utility class for Mont Bold font */
   .font-mont-bold {
     font-family: 'MontBold', sans-serif !important;
@@ -173,6 +181,16 @@ body {
   /* Utility class for Roboto-Medium font */
   .font-roboto-medium {
     font-family: 'Roboto-Medium', sans-serif !important;
+  }
+
+  /* Utility class for Inter-Medium font */
+  .font-inter-medium {
+    font-family: 'Inter-Medium', sans-serif !important;
+  }
+
+  /* Utility class for mont-semibold mapping to Inter-Medium */
+  .font-mont-semibold {
+    font-family: var(--font-mont-semibold) !important;
   }
 
   @keyframes lama-drift {
@@ -227,19 +245,12 @@ body {
     animation-duration: 20s;
   }
   @keyframes move-forever {
-    0% {
-     transform: translate3d(-90px,0,0);
-    }
-    100% {
-      transform: translate3d(85px,0,0);
-    }
+    0% { transform: translate3d(-90px,0,0); }
+    100% { transform: translate3d(85px,0,0); }
   }
   /*Shrinking for mobile*/
   @media (max-width: 768px) {
-    .onde {
-      height: 40px;
-      min-height: 40px;
-    }
+    .onde { height: 40px; min-height: 40px; }
   }
 
   /* Hide scrollbars utility (WebKit + Firefox) */
@@ -285,15 +296,7 @@ body {
 
 /* Pause animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .animate-fade-in-up {
-    animation: none !important;
-  }
-  
-  .animate-bounce {
-    animation: none !important;
-  }
-  
-  .animate-pulse {
-    animation: none !important;
-  }
+  .animate-fade-in-up { animation: none !important; }
+  .animate-bounce { animation: none !important; }
+  .animate-pulse { animation: none !important; }
 }

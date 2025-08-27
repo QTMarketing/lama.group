@@ -17,6 +17,7 @@ const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Who We Are', href: '/who-we-are' },
   { name: 'Store Leasing', href: '/store-leasing' },
+  { name: 'Properties', href: '/properties' },
   { name: 'Contact', href: '/contact' },
 ];
 

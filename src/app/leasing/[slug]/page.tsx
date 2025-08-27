@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
 import { getPropertyBySlug, addressToString, gated } from '@/lib/property';
 import { PropertyDoc } from '@/types/property';
 import { PropertyHero } from '@/components/property/PropertyHero';
@@ -14,40 +14,54 @@ import { StickyCTA } from '@/components/property/StickyCTA';
 import { RelatedProperties } from '@/components/property/RelatedProperties';
 import { HeroSkeleton, SectionSkeleton, GallerySkeleton } from '@/components/property/Skeletons';
 import { MapPin, Building2, Wifi, Car, Utensils, Shield, Zap, Droplets, Snowflake } from 'lucide-react';
+import { testFirebaseConnection } from '@/lib/firebase';
 
 export const dynamic = "force-static";
 
 export default function PropertyDetailPage() {
   const params = useParams();
-  const { user } = useAuth();
+  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
   const [property, setProperty] = useState<PropertyDoc | null>(null);
   const [notFound, setNotFound] = useState(false);
+  const [firebaseStatus, setFirebaseStatus] = useState<'checking' | 'online' | 'offline'>('checking');
 
   const slug = params?.slug as string;
 
+  // Check if user is authenticated
+  const isAuthenticated = status === 'authenticated' && session;
+
   useEffect(() => {
-    const fetchProperty = async () => {
+    const checkFirebaseAndFetchProperty = async () => {
       if (!slug) return;
       
       try {
         setLoading(true);
-        const propertyData = await getPropertyBySlug(slug);
         
-        if (!propertyData) {
-          // For testing purposes, create a fallback property based on the slug
-          const fallbackProperty = createFallbackProperty(slug);
-          if (fallbackProperty) {
-            setProperty(fallbackProperty);
-          } else {
-            setNotFound(true);
+        // First, test Firebase connection
+        const isFirebaseOnline = await testFirebaseConnection();
+        setFirebaseStatus(isFirebaseOnline ? 'online' : 'offline');
+        
+        if (isFirebaseOnline) {
+          // Try to fetch from Firebase
+          const propertyData = await getPropertyBySlug(slug);
+          if (propertyData) {
+            setProperty(propertyData);
+            return;
           }
+        }
+        
+        // If Firebase is offline or no data found, use fallback
+        console.log('Using fallback property data');
+        const fallbackProperty = createFallbackProperty(slug);
+        if (fallbackProperty) {
+          setProperty(fallbackProperty);
         } else {
-          setProperty(propertyData);
+          setNotFound(true);
         }
       } catch (error) {
-        console.error('Error fetching property:', error);
-        // Try fallback property
+        console.error('Error in property fetching flow:', error);
+        // Use fallback property
         const fallbackProperty = createFallbackProperty(slug);
         if (fallbackProperty) {
           setProperty(fallbackProperty);
@@ -59,7 +73,7 @@ export default function PropertyDetailPage() {
       }
     };
 
-    fetchProperty();
+    checkFirebaseAndFetchProperty();
   }, [slug]);
 
   // Create fallback property for testing when Firestore doesn't have data
@@ -304,19 +318,33 @@ export default function PropertyDetailPage() {
   // Loading state
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <HeroSkeleton />
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-8 space-y-8">
-            <SectionSkeleton />
-            <GallerySkeleton />
-            <SectionSkeleton />
-          </div>
-          <div className="lg:col-span-4">
-            <SectionSkeleton />
+      <>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <HeroSkeleton />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8 space-y-8">
+              <SectionSkeleton />
+              <SectionSkeleton />
+              <GallerySkeleton />
+            </div>
+            <div className="lg:col-span-4">
+              <SectionSkeleton />
+            </div>
           </div>
         </div>
-      </div>
+        
+        {/* Firebase Status Indicator */}
+        {firebaseStatus === 'offline' && (
+          <div className="fixed bottom-4 right-4 bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-2 rounded-lg shadow-lg">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+              <span className="text-sm font-medium">Using offline data</span>
+            </div>
+          </div>
+        )}
+      </>
     );
   }
 
@@ -339,7 +367,7 @@ export default function PropertyDetailPage() {
   }
 
   const locationLine = addressToString(property.location);
-  const isGated = gated(user);
+  const isGated = gated(Boolean(isAuthenticated));
 
   // Icon mapping for amenities
   const getAmenityIcon = (amenity: string) => {
@@ -369,6 +397,19 @@ export default function PropertyDetailPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        {/* Firebase Status Banner */}
+        {firebaseStatus === 'offline' && (
+          <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <div>
+                <h3 className="text-sm font-medium text-yellow-800">Firebase Offline</h3>
+                <p className="text-sm text-yellow-700">Showing fallback property data. Some features may be limited.</p>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Main Content Column */}
           <div className="lg:col-span-8 space-y-8">

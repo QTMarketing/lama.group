@@ -128,7 +128,7 @@ export default function HeroSection() {
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{
-                  backgroundImage: `url(${slide.image})`,
+                  backgroundImage: `url("${slide.image}")`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat'

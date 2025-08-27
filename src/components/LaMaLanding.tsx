@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import HeroSection from "./HeroSection";
-import StatusBar from "./StatusBar";
 
 // VERCEL DEPLOYMENT FIX: This file contains all TypeScript fixes applied
 // Fixed onToggleMode prop destructuring - commit eac9fc9
@@ -148,7 +147,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ open, mode, onClose, onSubmit, on
               className="text-[#007BFF] hover:underline font-medium"
             >
               {mode === 'login' ? 'Sign up' : 'Log in'}
-            </button>
+                </button>
           </p>
         </div>
       </div>
@@ -169,28 +168,122 @@ export default function LaMaLanding() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Status Bar */}
-      <StatusBar />
+      {/* Blogs Section */}
+      <section aria-labelledby="blogs-heading" className="w-full bg-white text-[#111] py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+            <h2 id="blogs-heading" className="text-4xl md:text-5xl font-extrabold tracking-tight">Blogs</h2>
+            <div className="text-right">
+              <span className="inline-block text-sm uppercase tracking-wide text-[#FF4D4D] bg-[#FF4D4D]/10 px-3 py-1 rounded-full border border-[#FF4D4D]/20">
+                Latest News
+              </span>
+            </div>
+          </div>
 
-      {/* Auth Modal */}
-      <AuthModal
-        open={authOpen}
-        mode={authMode}
-        onClose={() => setAuthOpen(false)}
-        onSubmit={(email, password, mode) => {
-          // Placeholder submit handler
-          console.log(mode === 'login' ? 'Login' : 'Sign Up', { email, password });
-          setAuthOpen(false);
-        }}
-        onToggleMode={() => {
-          setAuthMode(authMode === 'login' ? 'signup' : 'login');
-          setAuthOpen(true);
-        }}
-      />
+          {/* Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Left: Trending Topics (8 cols) */}
+            <div className="lg:col-span-8 space-y-6">
+              <h3 className="text-xl font-semibold text-[#1A1A1A]">Trending Topics</h3>
+
+              {/* Medium Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Card 1 */}
+                <a href="#" className="group overflow-hidden rounded-2xl border border-black/10 bg-white hover:shadow-xl transition-all duration-300">
+                  <div className="relative overflow-hidden">
+                    <img
+                      src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=1200&auto=format&fit=crop"
+                      alt="Advanced recycling systems"
+                      loading="lazy"
+                      className="w-full aspect-[4/3] object-cover transform transition-transform duration-500 group-hover:scale-105"
+                    />
+              </div>
+                  <div className="p-5">
+                    <div className="flex items-center gap-2 text-xs font-medium mb-2">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-[#00FFA3]/15 text-[#0F766E] border border-[#00FFA3]/30">Sustainability</span>
+                      <span className="text-gray-500">•</span>
+                      <span className="text-gray-600">3 min read</span>
+              </div>
+                    <h4 className="text-lg md:text-xl font-bold text-[#111] leading-snug">Carbon Capture Innovations Transforming Retail Energy</h4>
+                    <p className="mt-2 text-sm text-gray-600">Exploring next-gen carbon capture and storage solutions designed for scalable deployment across c-store networks.</p>
+            </div>
+                </a>
+
+                {/* Card 2 */}
+                <a href="#" className="group overflow-hidden rounded-2xl border border-black/10 bg-white hover:shadow-xl transition-all duration-300">
+                  <div className="relative overflow-hidden">
+                    <img
+                      src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop"
+                      alt="AI-driven operations"
+                      loading="lazy"
+                      className="w-full aspect-[4/3] object-cover transform transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <div className="flex items-center gap-2 text-xs font-medium mb-2">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-[#FF4D4D]/10 text-[#B91C1C] border border-[#FF4D4D]/30">Operations</span>
+                      <span className="text-gray-500">•</span>
+                      <span className="text-gray-600">5 min read</span>
+                    </div>
+                    <h4 className="text-lg md:text-xl font-bold text-[#111] leading-snug">AI Workflows Boost Uptime Across Fuel & Retail</h4>
+                    <p className="mt-2 text-sm text-gray-600">From predictive maintenance to dynamic pricing—how AI delivers measurable ROI in multi-location environments.</p>
+              </div>
+                </a>
+              </div>
+            </div>
+
+            {/* Right: Latest News (4 cols) */}
+            <aside className="lg:col-span-4">
+              <div className="sticky top-24 space-y-4">
+                <h3 className="text-xl font-semibold text-[#1A1A1A]">Latest News</h3>
+                <ul className="space-y-3">
+                  {/* Item */}
+                  <li>
+                    <a href="#" className="block rounded-xl border border-black/10 bg-white hover:bg-black/[0.02] transition-all duration-200 p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-[#0F766E] mt-1">Carbon Capture</span>
+                        <div className="flex-1">
+                          <p className="text-sm md:text-base font-semibold text-[#111]">New federal incentives accelerate CCS at regional facilities</p>
+                          <p className="text-xs text-gray-600 mt-1">2 min read</p>
+              </div>
+            </div>
+                    </a>
+                  </li>
+                  {/* Item */}
+                  <li>
+                    <a href="#" className="block rounded-xl border border-black/10 bg-white hover:bg-black/[0.02] transition-all duration-200 p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-[#B91C1C] mt-1">AI</span>
+                        <div className="flex-1">
+                          <p className="text-sm md:text-base font-semibold text-[#111]">Computer vision reduces shrink by 18% in pilot program</p>
+                          <p className="text-xs text-gray-600 mt-1">3 min read</p>
+          </div>
+                </div>
+                    </a>
+                  </li>
+                  {/* Item */}
+                  <li>
+                    <a href="#" className="block rounded-xl border border-black/10 bg-white hover:bg-black/[0.02] transition-all duration-200 p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-[#0369A1] mt-1">Supply</span>
+                        <div className="flex-1">
+                          <p className="text-sm md:text-base font-semibold text-[#111]">Wholesale optimization improves margin resilience</p>
+                          <p className="text-xs text-gray-600 mt-1">4 min read</p>
+                </div>
+              </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
 
       {/* Why LaMa Section */}
       <section className="bg-gradient-to-r from-white via-orange-50 to-white text-black py-24">
-        <div className="max-w-[1440px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start aos-init aos-animate" data-aos="fade-up">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start aos-init aos-animate" data-aos="fade-up">
           {/* Left Column */}
           <div>
             <h2 className="text-5xl lg:text-6xl font-bold leading-tight mb-6">
@@ -232,58 +325,34 @@ export default function LaMaLanding() {
               <h3 className="text-xl font-bold mb-3 text-black">Proven Track Record</h3>
               <p className="text-gray-600 text-sm leading-relaxed">Hundreds of businesses trust us for consistent, high-quality results. We deliver outcomes, not just promises.</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* International Presence Section */}
-      <section className="bg-black text-white py-20">
-        <div className="max-w-[1200px] mx-auto px-6 text-center aos-init aos-animate" data-aos="fade-up">
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-8">International Presence</h2>
-          <div className="w-full h-96 bg-gray-800 rounded-lg mb-8 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-64 h-32 bg-gray-700 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                <span className="text-gray-400 text-lg font-medium">World Map</span>
-              </div>
-              <p className="text-gray-400 text-lg">Expanding our presence across multiple regions</p>
-            </div>
-          </div>
-          <div className="btn-container w-full flex justify-center">
-                  <a href="#" className="inline-block bg-[#FF6600] text-white font-medium text-lg px-8 py-4 rounded-full hover:bg-orange-500 transition-colors">Learn More</a>
                 </div>
         </div>
       </section>
 
       {/* Contact Us Section */}
-      <section className="bg-[#F4F4F4] text-black pt-[90px] pb-[90px] w-full min-w-0 min-h-0 lg:min-w-[1680px] lg:min-h-[536.19px] flex justify-center items-center">
-        <div className="max-w-[1200px] w-full mx-auto px-6 flex flex-col items-center aos-init aos-animate" data-aos="fade-up">
-          <h2 className="text-[48px] font-extrabold mb-12 text-center">Contact Us</h2>
-          <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-12 w-full">
+      <section className="bg-[#F4F4F4] text-black py-20">
+        <div className="max-w-7xl w-full mx-auto px-6">
+          <h2 className="text-4xl font-extrabold mb-12 text-center">Contact Us</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* For Fuel Card */}
-            <div className="w-[413.33px] h-[159.59px] bg-white rounded-[20px] p-5 flex flex-col justify-center shadow-lg hover:shadow-xl transition-shadow">
-              <h4 className="text-[30px] font-compressed-medium text-gray-900 mb-4 text-left leading-[48px] tracking-[0.2px]">For Fuel</h4>
-              <div className="text-left">
-                <p className="text-[14px] lg:text-[18px] text-gray-700 mb-1">Email us:</p>
-                <a href="mailto:info@quicktrackfuel.com" className="text-[14px] lg:text-[18px] text-[#FF6600] hover:underline break-all">info@quicktrackfuel.com</a>
-              </div>
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+              <h4 className="text-2xl font-compressed-medium text-gray-900 mb-4 leading-[1.2] tracking-[0.2px]">For Fuel</h4>
+              <p className="text-sm md:text-base text-gray-700 mb-1">Email us:</p>
+              <a href="mailto:info@quicktrackfuel.com" className="text-sm md:text-base text-[#FF6600] hover:underline break-all">info@quicktrackfuel.com</a>
             </div>
 
             {/* For LaMa Wholesale Card */}
-            <div className="w-[413.33px] h-[159.59px] bg-white rounded-[20px] p-5 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow">
-              <h4 className="text-[30px] font-compressed-medium text-gray-900 mb-4 text-left leading-[48px] tracking-[0.2px]">For LaMa Wholesale</h4>
-              <div className="text-left">
-                <p className="text-[14px] lg:text-[18px] text-gray-700 mb-1">Email us:</p>
-                <a href="mailto:info@lamawholesale.com" className="text-[14px] lg:text-[18px] text-[#FF6600] hover:underline break-all">info@lamawholesale.com</a>
-              </div>
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+              <h4 className="text-2xl font-compressed-medium text-gray-900 mb-4 leading-[1.2] tracking-[0.2px]">For LaMa Wholesale</h4>
+              <p className="text-sm md:text-base text-gray-700 mb-1">Email us:</p>
+              <a href="mailto:info@lamawholesale.com" className="text-sm md:text-base text-[#FF6600] hover:underline break-all">info@lamawholesale.com</a>
             </div>
 
             {/* For LaMa Foundation Card */}
-            <div className="w-[413.33px] h-[159.59px] bg-white rounded-[20px] p-5 flex flex-col justify-center shadow-lg hover:shadow-xl transition-shadow">
-              <h4 className="text-[30px] font-compressed-medium text-gray-900 mb-4 text-left leading-[48px] tracking-[0.2px]">For LaMa Foundation</h4>
-              <div className="text-left">
-                <p className="text-[14px] lg:text-[18px] text-gray-700 mb-1">Email us:</p>
-                <a href="mailto:info@lamafoundation.com" className="text-[14px] lg:text-[18px] text-[#FF6600] hover:underline break-all">info@lamafoundation.com</a>
-              </div>
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+              <h4 className="text-2xl font-compressed-medium text-gray-900 mb-4 leading-[1.2] tracking-[0.2px]">For LaMa Foundation</h4>
+              <p className="text-sm md:text-base text-gray-700 mb-1">Email us:</p>
+              <a href="mailto:info@lamafoundation.com" className="text-sm md:text-base text-[#FF6600] hover:underline break-all">info@lamafoundation.com</a>
             </div>
           </div>
         </div>

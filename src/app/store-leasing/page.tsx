@@ -2,6 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 // Property data
 const propertyData = {
@@ -26,6 +28,8 @@ const propertyData = {
 };
 
 export default function StoreLeasingPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [propertyType, setPropertyType] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
@@ -131,6 +135,9 @@ export default function StoreLeasingPage() {
     setSizeFilter('all');
     setSortBy('default');
   };
+
+  // Check if user is authenticated
+  const isAuthenticated = status === 'authenticated' && session;
 
   return (
     <div className="min-h-screen bg-white">
@@ -351,37 +358,63 @@ export default function StoreLeasingPage() {
                           <span className="ml-1 break-words">{property.size}</span>
                         </div>
                         
-                        <div className="text-xl font-bold text-gray-900">
-                          {formatPrice(property.price, property.type)}
-                        </div>
+                        {isAuthenticated ? (
+                          <div className="text-xl font-bold text-gray-900">
+                            {formatPrice(property.price, property.type)}
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">Login to view price</span>
+                            <button
+                              type="button"
+                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.push('/login'); }}
+                              className="text-sm text-blue-600 hover:text-blue-700 underline"
+                            >
+                              Sign in
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
 
                     {/* Bottom Section - Contact Information */}
                     <div className="pt-4 border-t border-gray-100">
-                      <div className="space-y-3">
-                        <div className="flex items-start text-sm text-gray-600">
-                          <svg className="h-4 w-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                          </svg>
-                          <div className="flex-1 min-w-0">
-                            <span className="font-medium">Contact:</span>
-                            <span className="ml-1 break-words">{property.contact}</span>
+                      {isAuthenticated ? (
+                        <div className="space-y-3">
+                          <div className="flex items-start text-sm text-gray-600">
+                            <svg className="h-4 w-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            <div className="flex-1 min-w-0">
+                              <span className="font-medium">Contact:</span>
+                              <span className="ml-1 break-words">{property.contact}</span>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-start text-sm text-gray-600">
+                            <svg className="h-4 w-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <div className="flex-1 min-w-0">
+                              <span className="font-medium">Email:</span>
+                              <span className="ml-1 text-blue-600 font-medium break-all">
+                                {property.email}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                        
-                        <div className="flex items-start text-sm text-gray-600">
-                          <svg className="h-4 w-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                          </svg>
-                          <div className="flex-1 min-w-0">
-                            <span className="font-medium">Email:</span>
-                            <span className="ml-1 text-blue-600 font-medium break-all">
-                              {property.email}
-                            </span>
-                          </div>
+                      ) : (
+                        <div className="flex items-center justify-between">
+                          <div className="text-sm text-gray-600">Login to view contact details</div>
+                          <button
+                            type="button"
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.push('/login'); }}
+                            className="text-sm text-blue-600 hover:text-blue-700 underline"
+                          >
+                            Sign in
+                          </button>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>

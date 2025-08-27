@@ -12,8 +12,21 @@ export async function getPropertyBySlug(slug: string): Promise<PropertyDoc | nul
     } else {
       return null;
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching property:', error);
+    
+    // Handle specific Firebase errors
+    if (error.code === 'failed-precondition') {
+      console.warn('Firebase offline - using fallback data');
+      return null;
+    } else if (error.code === 'unavailable') {
+      console.warn('Firebase service unavailable - using fallback data');
+      return null;
+    } else if (error.message?.includes('offline')) {
+      console.warn('Firebase client offline - using fallback data');
+      return null;
+    }
+    
     return null;
   }
 }
@@ -39,4 +52,4 @@ export function addressToString(location: PropertyDoc['location']): string {
   return parts.join(', ');
 }
 
-export const gated = (user: unknown) => !user; 
+export const gated = (isAuthenticated: boolean) => !isAuthenticated; 
