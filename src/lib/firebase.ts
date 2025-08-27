@@ -57,9 +57,9 @@ if (typeof window !== 'undefined' && db) {
 let analytics: Analytics | null = null;
 
 // Check if analytics is supported and initialize
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && firebaseApp) {
   isSupported().then((supported) => {
-    if (supported) {
+    if (supported && firebaseApp) {
       analytics = getAnalytics(firebaseApp);
     }
   });
