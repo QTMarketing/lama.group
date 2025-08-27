@@ -76,6 +76,10 @@ export default firebaseApp;
 // Test function to check Firebase connectivity
 export async function testFirebaseConnection(): Promise<boolean> {
   try {
+    if (!db) {
+      console.warn('Firebase Firestore is not configured');
+      return false;
+    }
     const testDoc = doc(db, 'test', 'connection');
     await getDoc(testDoc);
     console.log('Firebase connection successful');
