@@ -19,24 +19,25 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase app
-let firebaseApp: FirebaseApp;
+let firebaseApp: FirebaseApp | null = null;
 
 if (!getApps().length) {
-  // Validate that all required environment variables are present
+  // Check if Firebase configuration is available
   if (!firebaseConfig.apiKey || !firebaseConfig.authDomain || !firebaseConfig.projectId) {
-    console.error('Firebase configuration is incomplete. Please check your environment variables.');
-    throw new Error('Firebase configuration is incomplete');
+    console.warn('Firebase configuration is incomplete. Firebase features will be disabled.');
+    // Don't throw error during build, just warn
+    firebaseApp = null;
+  } else {
+    firebaseApp = initializeApp(firebaseConfig);
   }
-  
-  firebaseApp = initializeApp(firebaseConfig);
 } else {
   firebaseApp = getApps()[0];
 }
 
-// Initialize Firebase services
-export const auth: Auth = getAuth(firebaseApp);
-export const db: Firestore = getFirestore(firebaseApp);
-export const storage: FirebaseStorage = getStorage(firebaseApp);
+// Initialize Firebase services (only if app is available)
+export const auth: Auth | null = firebaseApp ? getAuth(firebaseApp) : null;
+export const db: Firestore | null = firebaseApp ? getFirestore(firebaseApp) : null;
+export const storage: FirebaseStorage | null = firebaseApp ? getStorage(firebaseApp) : null;
 
 // Enable offline persistence for Firestore
 if (typeof window !== 'undefined') {
