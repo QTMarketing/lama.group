@@ -40,8 +40,8 @@ export const db: Firestore | null = firebaseApp ? getFirestore(firebaseApp) : nu
 export const storage: FirebaseStorage | null = firebaseApp ? getStorage(firebaseApp) : null;
 
 // Enable offline persistence for Firestore
-if (typeof window !== 'undefined') {
-  // Enable offline persistence in browser environment
+if (typeof window !== 'undefined' && db) {
+  // Enable offline persistence in browser environment (only if db is available)
   import('firebase/firestore').then(({ enableIndexedDbPersistence }) => {
     enableIndexedDbPersistence(db).catch((err) => {
       if (err.code === 'failed-precondition') {
