@@ -15,8 +15,9 @@ const QUERY = `
   }
 `;
 
-export default async function PropertyPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default async function PropertyPage(props: any) {
+  const params = props?.params?.then ? await props.params : props.params;
+  const { slug } = params as { slug: string };
   const session = await getServerSession(authOptions);
   const accessToken = (session as any)?.accessToken as string | undefined;
 
