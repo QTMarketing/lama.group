@@ -76,14 +76,36 @@ add_action('graphql_register_types', function () {
     'type' => 'Float',
     'description' => 'Visible only to users with read_price capability.',
     'resolve' => function ($post) {
-      return current_user_can('read_price') ? (float) get_post_meta($post->ID, 'price', true) : null;
+      $post_id = 0;
+      if (is_object($post) && isset($post->ID)) {
+        $post_id = (int) $post->ID;
+      } elseif (is_object($post) && isset($post->databaseId)) {
+        $post_id = (int) $post->databaseId;
+      } elseif (is_array($post) && isset($post['ID'])) {
+        $post_id = (int) $post['ID'];
+      }
+      if ($post_id <= 0) {
+        return null;
+      }
+      return current_user_can('read_price') ? (float) get_post_meta($post_id, 'price', true) : null;
     }
   ]);
 
   register_graphql_field('Property', 'currency', [
     'type' => 'String',
     'resolve' => function ($post) {
-      return current_user_can('read_price') ? (string) get_post_meta($post->ID, 'currency', true) : null;
+      $post_id = 0;
+      if (is_object($post) && isset($post->ID)) {
+        $post_id = (int) $post->ID;
+      } elseif (is_object($post) && isset($post->databaseId)) {
+        $post_id = (int) $post->databaseId;
+      } elseif (is_array($post) && isset($post['ID'])) {
+        $post_id = (int) $post['ID'];
+      }
+      if ($post_id <= 0) {
+        return null;
+      }
+      return current_user_can('read_price') ? (string) get_post_meta($post_id, 'currency', true) : null;
     }
   ]);
 });
