@@ -23,24 +23,43 @@ export const authOptions: NextAuthOptions = {
       credentials: { username: { label: "Username" }, password: { label: "Password", type: "password" } },
       async authorize(creds) {
         if (!creds?.username || !creds?.password) return null;
-        const res = await fetch(`${process.env.WP_URL}/graphql`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            query: LOGIN_MUTATION,
-            variables: { username: creds.username, password: creds.password },
-          }),
-        });
-        const json = await res.json();
-        const login = json?.data?.login;
-        if (!login?.authToken) return null;
-        return {
-          id: String(login.user.databaseId),
-          name: login.user.name,
-          roles: login.user.roles?.nodes?.map((r: any) => r.name) ?? [],
-          accessToken: login.authToken,
-          refreshToken: login.refreshToken,
-        } as any;
+        
+        // Check if WordPress URL is configured
+        if (!process.env.WP_URL) {
+          console.warn('WordPress URL not configured - authentication disabled');
+          return null;
+        }
+        
+        try {
+          const res = await fetch(`${process.env.WP_URL}/graphql`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              query: LOGIN_MUTATION,
+              variables: { username: creds.username, password: creds.password },
+            }),
+          });
+          
+          if (!res.ok) {
+            console.error('WordPress API error:', res.status, res.statusText);
+            return null;
+          }
+          
+          const json = await res.json();
+          const login = json?.data?.login;
+          if (!login?.authToken) return null;
+          
+          return {
+            id: String(login.user.databaseId),
+            name: login.user.name,
+            roles: login.user.roles?.nodes?.map((r: any) => r.name) ?? [],
+            accessToken: login.authToken,
+            refreshToken: login.refreshToken,
+          } as any;
+        } catch (error) {
+          console.error('WordPress authentication error:', error);
+          return null;
+        }
       },
     }),
   ],
