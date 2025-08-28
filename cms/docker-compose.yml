@@ -1,0 +1,65 @@
+version: '3.9'
+
+services:
+  db:
+    image: mariadb:11
+    container_name: lama_wp_db
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:6-php8.2-apache
+    container_name: lama_wordpress
+    depends_on:
+      - db
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_ENVIRONMENT_TYPE', 'development');
+        define('DISALLOW_FILE_EDIT', true);
+        define('GRAPHQL_JWT_AUTH_SECRET_KEY', 'a-long-random-secret');
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./wp-content:/var/www/html/wp-content
+
+  wpcli:
+    image: wordpress:cli
+    container_name: lama_wp_cli
+    depends_on:
+      - wordpress
+      - db
+    working_dir: /var/www/html
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wp-content:/var/www/html/wp-content
+      - wordpress_data:/var/www/html
+    entrypoint: ["bash", "-lc"]
+    command: |
+      "\
+      if [ ! -f wp-config.php ]; then \
+        echo 'Waiting for WordPress files...'; \
+      fi; \
+      tail -f /dev/null \
+      "
+
+volumes:
+  db_data:
+  wordpress_data:
+
+
