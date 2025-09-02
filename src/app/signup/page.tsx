@@ -1,3 +1,87 @@
+"use client";
+import { useState, FormEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
+
+export default function SignupPage() {
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const sp = useSearchParams();
+  const callbackUrl = sp.get("callbackUrl") || "/store-leasing";
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const fd = new FormData(e.currentTarget);
+    const email = String(fd.get("email"));
+    const password = String(fd.get("password"));
+    const firstName = String(fd.get("firstName") || "");
+    const lastName = String(fd.get("lastName") || "");
+    const username = String(fd.get("username") || "");
+
+    const reg = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, username }),
+    }).then(r => r.json());
+
+    if (!reg?.success) {
+      setLoading(false);
+      setError(reg?.error || "Registration failed");
+      return;
+    }
+
+    const wpUsername = username || email;
+    const res = await signIn("credentials", { redirect: false, username: wpUsername, password, callbackUrl });
+
+    setLoading(false);
+    if (!res || (res as any).error) {
+      setError("Account created but login failed. Try logging in.");
+      return;
+    }
+    router.push((res as any).url || callbackUrl);
+  }
+
+  return (
+    <main className="min-h-[80vh] grid place-items-center px-4">
+      <div className="w-full max-w-md rounded-[16px] border border-slate-200 bg-white shadow-md p-6">
+        <h1 className="text-center text-[20px] leading-[28px] font-semibold text-slate-900">Create your account</h1>
+        <form onSubmit={onSubmit} className="mt-4 space-y-4">
+          <div>
+            <label className="block text-xs text-slate-500 mb-1">Email</label>
+            <input name="email" type="email" required className="w-full h-11 rounded-[12px] border border-slate-200 px-3 focus:outline-none focus:ring-2 focus:ring-slate-300" />
+          </div>
+          <div>
+            <label className="block text-xs text-slate-500 mb-1">Password (min 8 chars)</label>
+            <input name="password" type="password" minLength={8} required className="w-full h-11 rounded-[12px] border border-slate-200 px-3 focus:outline-none focus:ring-2 focus:ring-slate-300" />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs text-slate-500 mb-1">First name</label>
+              <input name="firstName" className="w-full h-11 rounded-[12px] border border-slate-200 px-3 focus:outline-none focus:ring-2 focus:ring-slate-300" />
+            </div>
+            <div>
+              <label className="block text-xs text-slate-500 mb-1">Last name</label>
+              <input name="lastName" className="w-full h-11 rounded-[12px] border border-slate-200 px-3 focus:outline-none focus:ring-2 focus:ring-slate-300" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs text-slate-500 mb-1">Username (optional)</label>
+            <input name="username" className="w-full h-11 rounded-[12px] border border-slate-200 px-3 focus:outline-none focus:ring-2 focus:ring-slate-300" placeholder="leave blank to use email prefix" />
+          </div>
+          {error && <p className="text-sm text-red-600">{error}</p>}
+          <button disabled={loading} className="w-full h-12 rounded-[12px] bg-gradient-to-b from-slate-800 to-slate-900 text-white text-[16px] font-medium">
+            {loading ? "Creating…" : "Create account"}
+          </button>
+        </form>
+      </div>
+    </main>
+  );
+}
+
 'use client';
 
 import React, { useState } from 'react';

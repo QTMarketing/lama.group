@@ -1,112 +1,132 @@
 <?php
-/**
- * Plugin Name: Lama Core
- * Description: Property CPT + gated price via WPGraphQL
- */
+// --- Public user registration endpoint for headless signup ---
+add_action('rest_api_init', function () {
+  register_rest_route('lama/v1', '/register', [
+    'methods'  => 'POST',
+    'callback' => function (\WP_REST_Request $req) {
+      // Verify API key first
+      lama_verify_api_key();
+      
+      // Try to get parameters from both JSON body and form params
+      $json_params = $req->get_json_params();
+      $form_params = $req->get_params();
+      
+      $params = !empty($json_params) ? $json_params : $form_params;
+      
+      if (empty($params)) {
+        return new \WP_REST_Response(['success' => false, 'error' => 'No data provided'], 400);
+      }
+      
+      $email     = sanitize_email($params['email'] ?? '');
+      $password  = (string) ($params['password'] ?? '');
+      $username  = sanitize_user($params['username'] ?? '');
 
-// Create a "member" role and a capability for viewing price.
-add_action('init', function () {
-  if (!get_role('member')) {
-    add_role('member', 'Member', ['read' => true]);
-  }
-  foreach (['administrator','editor','member'] as $r) {
-    if ($role = get_role($r)) $role->add_cap('read_price');
-  }
-});
+      if (!$email || !is_email($email)) {
+        return new \WP_REST_Response(['success' => false, 'error' => 'Invalid email'], 400);
+      }
+      if (strlen($password) < 8) {
+        return new \WP_REST_Response(['success' => false, 'error' => 'Password must be at least 8 characters'], 400);
+      }
 
-// Register Property post type.
-add_action('init', function () {
-  register_post_type('property', [
-    'label' => 'Properties',
-    'public' => true,
-    'supports' => ['title','editor','thumbnail'],
-    'has_archive' => true,
-    'show_in_rest' => true,
-    'show_in_graphql' => true,
-    'graphql_single_name' => 'Property',
-    'graphql_plural_name' => 'Properties',
+      if (email_exists($email)) {
+        return new \WP_REST_Response(['success' => false, 'error' => 'Email already registered'], 400);
+      }
+
+      // Derive username from email if not provided
+      if (!$username) {
+        $base = sanitize_user(current(explode('@', $email)));
+        $u = $base; $i = 1;
+        while (username_exists($u)) { $u = $base . $i; $i++; }
+        $username = $u;
+      } else {
+        if (username_exists($username)) {
+          return new \WP_REST_Response(['success' => false, 'error' => 'Username already exists'], 400);
+        }
+      }
+
+      $user_data = [
+        'user_login' => $username,
+        'user_email' => $email,
+        'user_pass'  => $password, // WordPress will hash this automatically
+        'role'       => 'member'
+      ];
+
+      $user_id = wp_insert_user($user_data);
+      if (is_wp_error($user_id)) {
+        return new \WP_REST_Response(['success' => false, 'error' => $user_id->get_error_message()], 400);
+      }
+
+      return new \WP_REST_Response(['success' => true, 'user_id' => $user_id], 201);
+    },
+    'permission_callback' => '__return_true',
+    'args' => [
+      'email' => [
+        'required' => true,
+        'type' => 'string',
+        'format' => 'email'
+      ],
+      'password' => [
+        'required' => true,
+        'type' => 'string'
+      ],
+      'username' => [
+        'required' => false,
+        'type' => 'string'
+      ]
+    ]
   ]);
 });
 
-// Meta for price/currency + simple meta box.
-add_action('init', function () {
-  register_post_meta('property', 'price', [
-    'type' => 'number',
-    'single' => true,
-    'show_in_rest' => true,
-    'sanitize_callback' => function($v){ return is_numeric($v) ? $v : null; },
-  ]);
-  register_post_meta('property', 'currency', [
-    'type' => 'string',
-    'single' => true,
-    'show_in_rest' => true,
-    'sanitize_callback' => 'sanitize_text_field',
-  ]);
-});
+// --- OAuth sync endpoint: upsert Member user + set password (for Google SSO) ---
+add_action('rest_api_init', function () {
+  register_rest_route('lama/v1', '/oauth-sync', [
+    'methods'  => 'POST',
+    'callback' => function (\WP_REST_Request $req) {
+      $secret = defined('LAMA_SSO_SECRET') ? constant('LAMA_SSO_SECRET') : null;
+      if (!$secret) return new \WP_REST_Response(['ok'=>false,'error'=>'SSO secret not configured'], 500);
 
-add_action('add_meta_boxes', function () {
-  add_meta_box('property_pricing', 'Pricing', function($post){
-    $price = get_post_meta($post->ID, 'price', true);
-    $currency = get_post_meta($post->ID, 'currency', true) ?: 'EUR';
-    ?>
-      <p>
-        <label>Price</label><br/>
-        <input type="number" step="0.01" name="lama_price" value="<?php echo esc_attr($price); ?>" />
-      </p>
-      <p>
-        <label>Currency</label><br/>
-        <input type="text" name="lama_currency" value="<?php echo esc_attr($currency); ?>" />
-      </p>
-    <?php
-  }, 'property', 'side', 'high');
-});
+      $raw = $req->get_body();
+      $sig = $req->get_header('x-lama-signature');
+      $calc = base64_encode(hash_hmac('sha256', $raw, $secret, true));
+      if (!hash_equals($calc, (string)$sig)) {
+        return new \WP_REST_Response(['ok'=>false,'error'=>'Invalid signature'], 401);
+      }
 
-add_action('save_post_property', function ($post_id) {
-  if (array_key_exists('lama_price', $_POST)) {
-    update_post_meta($post_id, 'price', $_POST['lama_price']);
-  }
-  if (array_key_exists('lama_currency', $_POST)) {
-    update_post_meta($post_id, 'currency', sanitize_text_field($_POST['lama_currency']));
-  }
-});
+      $data = json_decode($raw, true);
+      $email     = sanitize_email($data['email'] ?? '');
+      $first     = sanitize_text_field($data['firstName'] ?? '');
+      $last      = sanitize_text_field($data['lastName'] ?? '');
+      $username  = sanitize_user($data['username'] ?? '');
+      $password  = (string)($data['derivedPassword'] ?? '');
 
-// Protected GraphQL fields (null unless user can read_price).
-add_action('graphql_register_types', function () {
-  register_graphql_field('Property', 'price', [
-    'type' => 'Float',
-    'description' => 'Visible only to users with read_price capability.',
-    'resolve' => function ($post) {
-      $post_id = 0;
-      if (is_object($post) && isset($post->ID)) {
-        $post_id = (int) $post->ID;
-      } elseif (is_object($post) && isset($post->databaseId)) {
-        $post_id = (int) $post->databaseId;
-      } elseif (is_array($post) && isset($post['ID'])) {
-        $post_id = (int) $post['ID'];
+      if (!$email || !is_email($email) || !$password) {
+        return new \WP_REST_Response(['ok'=>false,'error'=>'Missing/invalid fields'], 400);
       }
-      if ($post_id <= 0) {
-        return null;
-      }
-      return current_user_can('read_price') ? (float) get_post_meta($post_id, 'price', true) : null;
-    }
-  ]);
 
-  register_graphql_field('Property', 'currency', [
-    'type' => 'String',
-    'resolve' => function ($post) {
-      $post_id = 0;
-      if (is_object($post) && isset($post->ID)) {
-        $post_id = (int) $post->ID;
-      } elseif (is_object($post) && isset($post->databaseId)) {
-        $post_id = (int) $post->databaseId;
-      } elseif (is_array($post) && isset($post['ID'])) {
-        $post_id = (int) $post['ID'];
+      $user_id = email_exists($email);
+      if (!$user_id) {
+        if (!$username) {
+          $base = sanitize_user(current(explode('@', $email)));
+          $username = $base; $i=1; while (username_exists($username)) { $username = $base.$i; $i++; }
+        }
+        $user_id = wp_create_user($username, $password, $email);
+        if (is_wp_error($user_id)) {
+          return new \WP_REST_Response(['ok'=>false,'error'=>$user_id->get_error_message()], 400);
+        }
+        $user = new \WP_User($user_id);
+        $user->set_role('member');
+      } else {
+        $user = new \WP_User($user_id);
+        if (!$user->has_cap('read_price')) { $user->add_role('member'); }
+        wp_set_password($password, $user_id);
       }
-      if ($post_id <= 0) {
-        return null;
-      }
-      return current_user_can('read_price') ? (string) get_post_meta($post_id, 'currency', true) : null;
-    }
+
+      if ($first) update_user_meta($user_id, 'first_name', $first);
+      if ($last)  update_user_meta($user_id, 'last_name', $last);
+
+      return new \WP_REST_Response(['ok'=>true,'username'=>$user->user_login], 200);
+    },
+    'permission_callback' => '__return_true',
   ]);
 });
 
