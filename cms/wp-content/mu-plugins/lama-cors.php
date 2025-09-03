@@ -1,33 +1,28 @@
 <?php
 /*
 Plugin Name: LaMa REST CORS
-Description: Adds CORS headers for headless REST access from Next.js (localhost:3000 by default).
+Description: Adds CORS headers for headless REST access from Next.js with multiple origin support.
 Author: LaMa
-Version: 1.0.0
+Version: 2.0.0
 */
 
-// Adjust this to your frontend origin for stricter security in production
-$lama_allowed_origin = getenv('LAMA_FRONTEND_ORIGIN');
-if (!$lama_allowed_origin) {
-    $lama_allowed_origin = 'http://localhost:3000';
-}
+// phpcs:disable WordPress.Functions.DontExtract
 
-add_action('rest_api_init', function () use ($lama_allowed_origin) {
-    // Allow preflight for all routes
-    add_filter('rest_pre_serve_request', function ($served, $result, $request, $server) use ($lama_allowed_origin) {
-        header('Access-Control-Allow-Origin: ' . $lama_allowed_origin);
-        header('Vary: Origin');
-        header('Access-Control-Allow-Credentials: true');
-        header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, x-api-key');
-
-        if ('OPTIONS' === $_SERVER['REQUEST_METHOD']) {
-            // End preflight early
-            status_header(200);
-            return true;
+add_action( 'rest_api_init', function() {
+    remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
+    add_filter( 'rest_pre_serve_request', function( $value ) {
+        $allowed_origins = [
+            'https://lama-group-website.vercel.app',
+            'http://localhost:3000', // keep for local dev
+        ];
+        if ( isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowed_origins) ) {
+            header( 'Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN'] );
+            header( 'Access-Control-Allow-Methods: GET, POST, OPTIONS' );
+            header( 'Access-Control-Allow-Credentials: true' );
+            header( 'Access-Control-Allow-Headers: Authorization, Content-Type' );
         }
-        return $served;
-    }, 10, 4);
-});
+        return $value;
+    });
+}, 15 );
 
 
