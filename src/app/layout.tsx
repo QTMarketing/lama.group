@@ -23,9 +23,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="stylesheet" href="/fonts/style.css" />
-      </head>
       <body className="bg-white text-[#111] antialiased">
         <Providers>
           <div className="min-h-screen flex flex-col bg-white">
