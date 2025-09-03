@@ -9,10 +9,10 @@ export const metadata = {
   description: "Latest articles and company stories.",
 };
 
-type Props = { searchParams: { after?: string } };
+type Props = { searchParams: Promise<{ after?: string }> };
 
 export default async function BlogIndexPage({ searchParams }: Props) {
-  const after = searchParams.after || null;
+  const { after } = await searchParams;
 
   const [featuredData, recentData] = await Promise.all([
     wpRequest<any>(FEATURED_POSTS, { first: 6 }).catch(() => ({ posts: { nodes: [] } })),

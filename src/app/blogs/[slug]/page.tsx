@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getRecentPostsForHomepage, type MappedPost } from '@/lib/wp';
+import { type MappedPost } from '@/lib/wp';
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 // Enable ISR - revalidate every 60 seconds
 export const revalidate = 60;

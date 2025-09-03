@@ -80,12 +80,12 @@ export default async function HomeBlogs() {
     <section className="mx-auto max-w-[1216px] px-4 py-12">
       <div className="flex items-center justify-between">
         <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight">Blogs</h2>
-        <a 
+        <Link 
           href="/blog" 
           className="inline-flex items-center rounded-full bg-orange-500 text-white text-sm px-4 py-2 hover:bg-orange-600"
         >
           Learn More
-        </a>
+        </Link>
       </div>
 
       <div className="mt-2 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

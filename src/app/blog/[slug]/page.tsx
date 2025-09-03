@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import PostCard from "@/components/PostCard";
 import ArticleAside from "@/components/ArticleAside";
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 // Enable ISR - revalidate every 60 seconds
 export const revalidate = 60;

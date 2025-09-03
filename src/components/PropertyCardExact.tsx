@@ -46,15 +46,16 @@ export default function PropertyCardExact({ node, isAuthed = false }: { node: Pr
   const sizeText = formatSize({
     dealSlug: deal,
     acres: node?.acf?.sizeAcres ?? node?.propertyFields?.sizeacres,
-    sqft: node?.acf?.sizeSqft ?? node?.propertyFields?.sizesqft,
+    sqft: (node?.acf as any)?.sizesqft ?? (node?.propertyFields as any)?.sizesqft,
   });
 
   const priceVisible = ((node?.acf?.priceVisibility || node?.propertyFields?.pricevisibility || "login") !== "login") || isAuthed;
+  const priceValue = node?.acf?.price ?? node?.propertyFields?.price;
   const price =
-    typeof (node?.acf?.price ?? node?.propertyFields?.price) === "number"
-      ? `$${Intl.NumberFormat().format(node?.acf?.price ?? node?.propertyFields?.price)}`
-      : typeof (node?.acf?.price ?? node?.propertyFields?.price) === "string" && (node?.acf?.price ?? node?.propertyFields?.price)?.trim() !== ""
-      ? (node?.acf?.price ?? node?.propertyFields?.price)
+    typeof priceValue === "number"
+      ? `$${Intl.NumberFormat().format(priceValue)}`
+      : typeof priceValue === "string" && priceValue?.trim() !== ""
+      ? priceValue
       : "—";
 
   const contactVisible = ((node?.acf?.contactVisibility || node?.propertyFields?.contactvisibility || "login") !== "login") || isAuthed;

@@ -12,8 +12,9 @@ async function fetchPostBySlug(slug: string) {
   return Array.isArray(data) && data[0] ? data[0] : null;
 }
 
-export default async function PostPage({ params }: { params: { slug: string } }) {
-  const post = await fetchPostBySlug(params.slug);
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await fetchPostBySlug(slug);
   if (!post) {
     return (
       <main className="mx-auto max-w-[920px] px-4 py-10">

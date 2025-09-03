@@ -1,11 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import GoogleButton from "@/components/auth/GoogleButton";
 import AuthTabs from "@/components/AuthTabs";
 
-export default function LoginPage() {
+function LoginForm() {
   const sp = useSearchParams();
   const callbackUrl = sp.get("callbackUrl") || "/";
   const [login, setLogin] = useState("");
@@ -84,5 +84,13 @@ export default function LoginPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

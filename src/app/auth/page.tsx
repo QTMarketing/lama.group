@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { requestOtp } from "@/lib/wp-auth";
@@ -11,7 +11,7 @@ function useCallbackUrl() {
   return sp.get("callbackUrl") || "/";
 }
 
-export default function AuthPage() {
+function AuthForm() {
   const sp = useSearchParams();
   const callbackUrl = useCallbackUrl();
 
@@ -88,7 +88,7 @@ export default function AuthPage() {
               </div>
               <button type="submit" disabled={loading} className="w-full h-12 rounded-[12px] bg-gradient-to-b from-slate-800 to-slate-900 text-white text-[16px] font-medium">{loading ? "Logging in..." : "Log In"}</button>
               <Divider />
-              <SocialButtons callbackUrl={callbackUrl} labelOverride={{ google: "Login with Google" }} />
+              <SocialButtons callbackUrl={callbackUrl} />
               <p className="mt-4 text-center text-sm text-slate-600">Don&apos;t have an account yet? <button onClick={() => setMode("signup")} className="text-slate-900 underline">Sign up</button></p>
             </form>
           ) : (
@@ -120,7 +120,7 @@ export default function AuthPage() {
               </div>
               <button type="submit" disabled={loading || !passwordsValid()} className="w-full h-12 rounded-[12px] bg-gradient-to-b from-slate-800 to-slate-900 text-white text-[16px] font-medium">{loading ? "Creating..." : "Create Account"}</button>
               <Divider />
-              <SocialButtons callbackUrl={callbackUrl} labelOverride={{ google: "Continue with Google" }} />
+              <SocialButtons callbackUrl={callbackUrl} />
               <p className="mt-4 text-center text-sm text-slate-600">Already have an account? <button onClick={() => setMode("login")} className="text-slate-900 underline">Sign in</button></p>
             </form>
           )}
@@ -130,4 +130,10 @@ export default function AuthPage() {
   );
 }
 
-
+export default function AuthPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthForm />
+    </Suspense>
+  );
+}

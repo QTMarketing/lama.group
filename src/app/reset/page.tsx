@@ -1,10 +1,10 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { resetPassword } from "@/lib/wp-auth";
 import { signIn } from "next-auth/react";
 
-export default function ResetPage() {
+function ResetForm() {
   const sp = useSearchParams();
   const login = sp.get("login") || "";
   const key = sp.get("key") || "";
@@ -54,4 +54,10 @@ export default function ResetPage() {
   );
 }
 
-
+export default function ResetPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetForm />
+    </Suspense>
+  );
+}

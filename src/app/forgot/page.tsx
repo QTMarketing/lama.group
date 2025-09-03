@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { forgotPassword } from "@/lib/wp-auth";
 
-export default function ForgotPage() {
+function ForgotForm() {
   const sp = useSearchParams();
   const callbackUrl = sp.get("callbackUrl") || "/";
   const [email, setEmail] = useState("");
@@ -44,6 +44,10 @@ export default function ForgotPage() {
   );
 }
 
-
-
-
+export default function ForgotPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ForgotForm />
+    </Suspense>
+  );
+}
