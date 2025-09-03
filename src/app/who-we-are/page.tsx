@@ -58,16 +58,26 @@ export default function WhoWeArePage() {
             </div>
             
             {/* Image - Right Edge of Screen */}
-            <div className="absolute right-[-360px] top-0 w-[600px] h-[400px] bg-gray-800 rounded-bl-[75px] overflow-hidden flex items-center justify-center text-white text-base text-center">
-              <span>🏪 STORE FRONT</span>
+            <div className="absolute right-[-360px] top-0 w-[600px] h-[400px] rounded-bl-[75px] overflow-hidden">
+              <Image
+                src="/STORE FRONT.jpeg"
+                alt="Store Front"
+                fill
+                className="object-cover"
+              />
             </div>
               </div>
               
           {/* Section 2: Our Philosophy - Image Left Edge, Text Right */}
           <div className="relative min-h-[400px]">
             {/* Image - Left Edge of Screen */}
-            <div className="absolute left-[-360px] top-0 w-[600px] h-[400px] bg-gray-800 rounded-tr-[77px] rounded-br-[77px] overflow-hidden flex items-center justify-center text-white text-base text-center">
-              <span>👥 BUSINESS MEETING</span>
+            <div className="absolute left-[-360px] top-0 w-[600px] h-[400px] rounded-tr-[77px] rounded-br-[77px] overflow-hidden">
+              <Image
+                src="/BUSINESS MEETING.jpg"
+                alt="Business Meeting"
+                fill
+                className="object-cover"
+              />
             </div>
 
             {/* Text Content - Right Side */}
@@ -94,8 +104,13 @@ export default function WhoWeArePage() {
               </div>
               
             {/* Image - Right Edge of Screen */}
-            <div className="absolute right-[-360px] bottom-0 w-[600px] h-[400px] bg-gray-800 rounded-tl-[75px] overflow-hidden flex items-center justify-center text-white text-base text-center">
-              <span>🛒 STORE INTERIOR</span>
+            <div className="absolute right-[-360px] bottom-0 w-[600px] h-[400px] rounded-tl-[75px] overflow-hidden">
+              <Image
+                src="/STORE INTERIOR.jpeg"
+                alt="Store Interior"
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
           
@@ -114,8 +129,13 @@ export default function WhoWeArePage() {
                 From snacks and drinks to everyday essentials, we&apos;ve got it all under one roof. Whether you&apos;re fueling up, grabbing a quick bite, or picking up last-minute items, we&apos;re here to make life easier—anytime you need us.
               </p>
             </div>
-            <div className="w-full max-w-md h-64 bg-gray-800 rounded-2xl overflow-hidden flex items-center justify-center text-white text-base">
-              <span>🏪 STORE FRONT</span>
+            <div className="w-full max-w-md h-64 rounded-2xl overflow-hidden relative">
+              <Image
+                src="/STORE FRONT.jpeg"
+                alt="Store Front"
+                fill
+                className="object-cover"
+              />
             </div>
         </div>
         
@@ -129,9 +149,14 @@ export default function WhoWeArePage() {
                 We believe our quickest path to success is by helping others achieve their goals. At Chargezoom, success is a collaborative effort, and by aiding our clients and employees to succeed, we create a community of thriving, innovative professionals.
               </p>
             </div>
-            <div className="w-full max-w-md h-64 bg-gray-800 rounded-2xl overflow-hidden flex items-center justify-center text-white text-base">
-              <span>👥 BUSINESS MEETING</span>
-                </div>
+            <div className="w-full max-w-md h-64 rounded-2xl overflow-hidden relative">
+              <Image
+                src="/BUSINESS MEETING.jpg"
+                alt="Business Meeting"
+                fill
+                className="object-cover"
+              />
+            </div>
               </div>
           
           {/* Section 3: Our Mission */}
@@ -144,8 +169,13 @@ export default function WhoWeArePage() {
                 At LaMa Group, our mission is simple: to be the most trusted and convenient choice for communities across Texas. With over 100 stores serving neighborhoods big and small, we aim to deliver fast service, quality products, and a friendly smile—every single time. We&apos;re committed to keeping shelves stocked, prices fair, and doors open when our customers need us most. Our goal is to make every visit quick, easy, and worth coming back for.
               </p>
             </div>
-            <div className="w-full max-w-md h-64 bg-gray-800 rounded-2xl overflow-hidden flex items-center justify-center text-white text-base">
-              <span>🛒 STORE INTERIOR</span>
+            <div className="w-full max-w-md h-64 rounded-2xl overflow-hidden relative">
+              <Image
+                src="/STORE INTERIOR.jpeg"
+                alt="Store Interior"
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
           
@@ -164,8 +194,13 @@ export default function WhoWeArePage() {
                 From snacks and drinks to everyday essentials, we&apos;ve got it all under one roof. Whether you&apos;re fueling up, grabbing a quick bite, or picking up last-minute items, we&apos;re here to make life easier—anytime you need us.
               </p>
             </div>
-            <div className="w-full h-48 bg-gray-800 rounded-xl overflow-hidden flex items-center justify-center text-white text-sm">
-              <span>🏪 STORE FRONT</span>
+            <div className="w-full h-48 rounded-xl overflow-hidden relative">
+              <Image
+                src="/STORE FRONT.jpeg"
+                alt="Store Front"
+                fill
+                className="object-cover"
+              />
             </div>
         </div>
         
@@ -179,9 +214,14 @@ export default function WhoWeArePage() {
                 We believe our quickest path to success is by helping others achieve their goals. At Chargezoom, success is a collaborative effort, and by aiding our clients and employees to succeed, we create a community of thriving, innovative professionals.
               </p>
             </div>
-            <div className="w-full h-48 bg-gray-800 rounded-xl overflow-hidden flex items-center justify-center text-white text-sm">
-              <span>👥 BUSINESS MEETING</span>
-                </div>
+            <div className="w-full h-48 rounded-xl overflow-hidden relative">
+              <Image
+                src="/BUSINESS MEETING.jpg"
+                alt="Business Meeting"
+                fill
+                className="object-cover"
+              />
+            </div>
               </div>
           
           {/* Section 3: Our Mission */}
@@ -194,8 +234,13 @@ export default function WhoWeArePage() {
                 At LaMa Group, our mission is simple: to be the most trusted and convenient choice for communities across Texas. With over 100 stores serving neighborhoods big and small, we aim to deliver fast service, quality products, and a friendly smile—every single time. We&apos;re committed to keeping shelves stocked, prices fair, and doors open when our customers need us most. Our goal is to make every visit quick, easy, and worth coming back for.
               </p>
             </div>
-            <div className="w-full h-48 bg-gray-800 rounded-xl overflow-hidden flex items-center justify-center text-white text-sm">
-              <span>🛒 STORE INTERIOR</span>
+            <div className="w-full h-48 rounded-xl overflow-hidden relative">
+              <Image
+                src="/STORE INTERIOR.jpeg"
+                alt="Store Interior"
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
           

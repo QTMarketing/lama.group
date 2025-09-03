@@ -7,6 +7,11 @@ export async function POST(req: Request) {
       return Response.json({ success: false, error: "Email and password required" }, { status: 400 });
     }
 
+    if (!process.env.WP_HEADLESS_API_KEY) {
+      console.error('WP_HEADLESS_API_KEY not found in environment');
+      return Response.json({ success: false, error: "Server configuration error" }, { status: 500 });
+    }
+
     const formData = new URLSearchParams();
     formData.append('email', email);
     formData.append('password', password);
@@ -16,7 +21,7 @@ export async function POST(req: Request) {
       method: "POST",
       headers: { 
         "Content-Type": "application/x-www-form-urlencoded",
-        "x-api-key": process.env.WP_HEADLESS_API_KEY!
+        "x-api-key": process.env.WP_HEADLESS_API_KEY
       },
       body: formData,
     });
@@ -28,6 +33,7 @@ export async function POST(req: Request) {
 
     return Response.json({ success: true, user_id: data.user_id });
   } catch (e: any) {
+    console.error('Registration API error:', e);
     return Response.json({ success: false, error: e?.message || "Unexpected error" }, { status: 500 });
   }
 }

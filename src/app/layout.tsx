@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { TopNavBar } from "@/components/navigation/TopNavBar";
-import { QuickLinksBar } from "@/components/navigation/QuickLinksBar";
 import { MainNavBar } from "@/components/navigation/MainNavBar";
 import { Footer } from "@/components/navigation/Footer";
 import Providers from "./providers";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "LaMa Group - Modern Corporate Solutions",
@@ -23,17 +23,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="stylesheet" href="/fonts/style.css" />
+      </head>
       <body className="bg-white text-[#111] antialiased">
         <Providers>
           <div className="min-h-screen flex flex-col bg-white">
             {/* Top Navigation Bar */}
             <TopNavBar />
 
-            {/* Quick Links Bar */}
-            <QuickLinksBar />
-
             {/* Main Navigation Bar */}
-            <MainNavBar />
+            <Suspense fallback={<div className="h-16 bg-white border-b border-gray-200" />}>
+              <MainNavBar />
+            </Suspense>
 
             {/* Page Content */}
             <main className="flex-1">

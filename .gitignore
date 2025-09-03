@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# WordPress plugins with embedded git repos
+cms/wp-content/plugins/wp-graphql-jwt-authentication

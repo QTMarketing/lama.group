@@ -102,3 +102,10 @@
     font-weight: normal;
     src: local('Open Sans Condensed Bold'), url('OpenSans-CondBold.woff') format('woff');
     }
+
+    @font-face {
+    font-family: 'Plus Jakarta Sans Medium';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Plus Jakarta Sans Medium'), url('PlusJakartaSans-Medium.ttf') format('truetype');
+    }

@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { LoginLink, SignupLink } from "@/components/AuthLinks";
+import { usePathname, useSearchParams } from 'next/navigation';
+import { Menu, X, User, LogOut } from 'lucide-react';
+import { useSession, signOut } from 'next-auth/react';
 
 // LaMa Logo Component
 const LaMaLogo = () => (
@@ -17,18 +19,36 @@ const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Who We Are', href: '/who-we-are' },
   { name: 'Store Leasing', href: '/store-leasing' },
-  { name: 'Blogs', href: '/#blogs' },
+  { name: 'Blogs', href: '/blog' },
   { name: 'Contact', href: '/contact' },
 ];
 
 export function MainNavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
+  const search = useSearchParams();
+  const { data: session } = useSession();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Prevent hydration mismatch by only rendering after mount
   useEffect(() => {
     setIsMounted(true);
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsUserDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const handleCallClick = () => {
@@ -93,6 +113,57 @@ export function MainNavBar() {
               })}
             </div>
 
+            {/* Right side actions: Auth + Book A Session */}
+            <div className="hidden lg:flex items-center gap-3">
+              {(() => {
+                const callbackUrl = `${pathname}${search?.toString() ? `?${search}` : ''}`;
+                if (!session) {
+                  return (
+                    <>
+                      <LoginLink className="rounded-full px-5 py-2 text-sm font-semibold text-white bg-[#111] hover:bg-black transition-colors">Login</LoginLink>
+                      <SignupLink className="rounded-full px-5 py-2 text-sm font-semibold text-[#111] border border-gray-300 hover:border-gray-400 transition-colors">Sign Up</SignupLink>
+                    </>
+                  );
+                }
+                return (
+                  <div className="relative" ref={dropdownRef}>
+                    <button
+                      onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                      className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                      aria-label="User menu"
+                    >
+                      <User size={20} className="text-gray-700" />
+                    </button>
+                    
+                    {/* Dropdown Menu */}
+                    {isUserDropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
+                        <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
+                          Hi, {session.user?.name ?? 'Member'}
+                        </div>
+                        <button
+                          onClick={() => {
+                            signOut();
+                            setIsUserDropdownOpen(false);
+                          }}
+                          className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                        >
+                          <LogOut size={16} className="mr-3" />
+                          Log out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+              <button
+                onClick={handleCallClick}
+                className="rounded-full px-5 py-2 text-sm font-semibold text-white bg-[#FF8800] hover:bg-[#FF9900] transition-colors"
+              >
+                Book A Session
+              </button>
+            </div>
+
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -102,16 +173,6 @@ export function MainNavBar() {
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-
-            {/* Desktop Book A Session Button */}
-            <div className="hidden lg:flex items-center">
-              <button
-                onClick={handleCallClick}
-                className="rounded-full px-5 py-2 text-sm font-semibold text-white bg-[#FF8800] hover:bg-[#FF9900] transition-colors"
-              >
-                Book A Session
-              </button>
-            </div>
           </div>
         </div>
       </nav>
@@ -141,8 +202,34 @@ export function MainNavBar() {
                 </Link>
               );
             })}
-            {/* Mobile Book A Session Button */}
-            <div className="pt-2">
+            {/* Mobile Auth + Book A Session */}
+            <div className="pt-2 space-y-3">
+              {(() => {
+                const callbackUrl = `${pathname}${search?.toString() ? `?${search}` : ''}`;
+                if (!session) {
+                  return (
+                    <div className="grid grid-cols-2 gap-2">
+                      <LoginLink className="col-span-1 text-center rounded-full px-5 py-3 text-sm font-semibold text-white bg-[#111] hover:bg-black transition-colors">Login</LoginLink>
+                      <SignupLink className="col-span-1 text-center rounded-full px-5 py-3 text-sm font-semibold text-[#111] border border-gray-300 hover:border-gray-400 transition-colors">Sign Up</SignupLink>
+                    </div>
+                  );
+                }
+                return (
+                  <div className="space-y-2">
+                    <div className="text-sm text-gray-700 text-center">Hi, {session.user?.name ?? 'Member'}</div>
+                    <button 
+                      onClick={() => { 
+                        signOut(); 
+                        setIsMobileMenuOpen(false); 
+                      }} 
+                      className="flex items-center justify-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors rounded-md"
+                    >
+                      <LogOut size={16} className="mr-2" />
+                      Log out
+                    </button>
+                  </div>
+                );
+              })()}
               <button
                 onClick={() => {
                   handleCallClick();

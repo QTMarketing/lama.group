@@ -29,7 +29,7 @@ add_action('rest_api_init', function () {
       }
 
       if (email_exists($email)) {
-        return new \WP_REST_Response(['success' => false, 'error' => 'Email already registered'], 400);
+        return new \WP_Error('account_exists', 'Account already exists', ['status' => 400]);
       }
 
       // Derive username from email if not provided
@@ -40,7 +40,7 @@ add_action('rest_api_init', function () {
         $username = $u;
       } else {
         if (username_exists($username)) {
-          return new \WP_REST_Response(['success' => false, 'error' => 'Username already exists'], 400);
+          return new \WP_Error('account_exists', 'Account already exists', ['status' => 400]);
         }
       }
 

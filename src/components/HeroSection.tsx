@@ -111,9 +111,9 @@ export default function HeroSection() {
       role="region"
       aria-label="Lama Group Services Slider"
     >
-      {/* Main Slider Container with fixed max width */}
+      {/* Main Slider Container */}
       <div className="relative w-full h-full flex items-center justify-center">
-        <div className="relative h-full w-full max-w-[1660px] rounded-[14px] overflow-hidden">
+        <div className="relative h-full w-full rounded-[14px] overflow-hidden">
           {slides.map((slide, index) => (
             <div
               key={slide.id}
@@ -148,7 +148,7 @@ export default function HeroSection() {
                     <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-4 drop-shadow-lg">
                       {slide.title}
                     </h1>
-                    <p className="text-base md:text-lg text-white/90 max-w-xl leading-relaxed mb-6 drop-shadow-lg">
+                    <p className="text-base md:text-lg text-white/90 max-w-xl leading-relaxed mb-[110px] drop-shadow-lg">
                       {slide.description}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">

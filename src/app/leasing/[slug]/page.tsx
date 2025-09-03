@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { getPropertyBySlug, addressToString, gated } from '@/lib/property';
 import { PropertyDoc } from '@/types/property';
@@ -355,12 +356,12 @@ export default function PropertyDetailPage() {
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Property Not Found</h1>
           <p className="text-gray-600 mb-8">The property you&apos;re looking for doesn&apos;t exist or has been removed.</p>
-          <a
+          <Link
             href="/store-leasing"
             className="bg-[#FF8800] hover:bg-[#FF6600] text-white px-6 py-3 rounded-xl font-semibold transition-colors"
           >
             Back to Properties
-          </a>
+          </Link>
         </div>
       </div>
     );
