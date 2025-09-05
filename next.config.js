@@ -20,8 +20,6 @@ const nextConfig = {
     remotePatterns: [
       { protocol: "http", hostname: "localhost", port: "8080" },
       { protocol: "https", hostname: "localhost", port: "8080" },
-      { protocol: "https", hostname: "*.ngrok-free.app" },
-      { protocol: "https", hostname: "*.ngrok.io" },
       { protocol: "https", hostname: "lamagroup.com" },
       { protocol: "https", hostname: "www.lamagroup.com" },
       { protocol: "https", hostname: "secure.gravatar.com" },

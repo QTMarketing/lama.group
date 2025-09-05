@@ -25,11 +25,8 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_CONFIG_EXTRA: |
-        define('WP_HOME', 'https://6f3ba05a533c.ngrok-free.app');
-        define('WP_SITEURL', 'https://6f3ba05a533c.ngrok-free.app');
         define('WP_ENVIRONMENT_TYPE', 'development');
         define('WP_DEBUG', true);
-        define('GRAPHQL_DEBUG', true);
         define('DISABLE_WP_CRON', false);
         define('WP_MEMORY_LIMIT', '256M');
         define('DISALLOW_FILE_EDIT', true);

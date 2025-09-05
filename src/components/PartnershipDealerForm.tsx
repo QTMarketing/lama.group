@@ -85,47 +85,47 @@ export default function PartnershipDealerForm({ ctaClassName = "" }: { ctaClassN
               </Field>
 
               <Field label="Current Occupation">
-                <input type="text" name="currentOccupation" className="input" />
+                <input required type="text" name="currentOccupation" className="input" />
               </Field>
 
               <Field label="Address">
-                <textarea name="address" className="textarea" rows={3} />
+                <textarea required name="address" className="textarea" rows={3} />
               </Field>
 
               <Field label="Education">
-                <input type="text" name="education" className="input" />
+                <input required type="text" name="education" className="input" />
               </Field>
 
               <Field label="Do you own a convenience store/ gas station?">
-                <Radio name="ownStore" />
+                <Radio name="ownStore" required />
               </Field>
 
               <Field label="If yes, for how long?">
-                <input type="text" name="ownStoreHowLong" className="input" />
+                <input required type="text" name="ownStoreHowLong" className="input" />
               </Field>
 
               <Field label="Address? (allow space for multiple addresses)">
-                <textarea name="ownStoreAddresses" className="textarea" rows={3} />
+                <textarea required name="ownStoreAddresses" className="textarea" rows={3} />
               </Field>
 
               <Field label="Have you worked in a convenience store/ gas station?">
-                <Radio name="workedStore" />
+                <Radio name="workedStore" required />
               </Field>
 
               <Field label="If yes, for how long?">
-                <input type="text" name="workedStoreHowLong" className="input" />
+                <input required type="text" name="workedStoreHowLong" className="input" />
               </Field>
 
               <Field label="Address? (allow space for multiple addresses)">
-                <textarea name="workedStoreAddresses" className="textarea" rows={3} />
+                <textarea required name="workedStoreAddresses" className="textarea" rows={3} />
               </Field>
 
               <Field label="Current Business Address">
-                <textarea name="currentBusinessAddress" className="textarea" rows={3} />
+                <textarea required name="currentBusinessAddress" className="textarea" rows={3} />
               </Field>
 
               <Field label="Years of Operation (Current Business)">
-                <input type="text" name="yearsOfOperation" className="input" />
+                <input required type="text" name="yearsOfOperation" className="input" />
               </Field>
 
               <Field label="Trade References (minimum 3 required, must include company name, contact person, number or email address)">
@@ -133,23 +133,23 @@ export default function PartnershipDealerForm({ ctaClassName = "" }: { ctaClassN
               </Field>
 
               <Field label="Annual Income">
-                <input type="text" name="annualIncome" className="input" />
+                <input required type="text" name="annualIncome" className="input" />
               </Field>
 
               <Field label="Liquid Cash-on-Hand">
-                <input type="text" name="liquidCash" className="input" />
+                <input required type="text" name="liquidCash" className="input" />
               </Field>
 
               <Field label="What is the initial investment amount you are willing to make?">
-                <input type="text" name="initialInvestment" className="input" />
+                <input required type="text" name="initialInvestment" className="input" />
               </Field>
 
               <Field label="Are you willing to relocate?">
-                <Radio name="relocate" />
+                <Radio name="relocate" required />
               </Field>
 
               <Field label="Personal References (minimum 2 required, must include name, relationship, contact information)">
-                <textarea name="personalReferences" className="textarea" rows={3} required />
+                <textarea required name="personalReferences" className="textarea" rows={3} />
               </Field>
 
               <Field label="Additional Questions/Remarks (200 words max)">
@@ -159,6 +159,7 @@ export default function PartnershipDealerForm({ ctaClassName = "" }: { ctaClassN
                   value={additional}
                   onChange={(e) => setAdditional(e.target.value)}
                   name="additionalRemarks"
+                  required
                 />
                 <div className={`mt-1 text-xs ${wordCount > 200 ? "text-red-600" : "text-slate-500"}`}>
                   {wordCount}/200 words
@@ -236,15 +237,15 @@ function Field({ label, children, id: idProp }: { label: string; children: React
   );
 }
 
-function Radio({ name }: { name: string }) {
+function Radio({ name, required }: { name: string; required?: boolean }) {
   return (
     <div className="flex items-center gap-6">
       <label className="inline-flex items-center gap-2 text-slate-700">
-        <input type="radio" name={name} value="yes" className="h-4 w-4" />
+        <input type="radio" name={name} value="yes" className="h-4 w-4" required={required} />
         <span>YES</span>
       </label>
       <label className="inline-flex items-center gap-2 text-slate-700">
-        <input type="radio" name={name} value="no" className="h-4 w-4" />
+        <input type="radio" name={name} value="no" className="h-4 w-4" required={required} />
         <span>NO</span>
       </label>
     </div>

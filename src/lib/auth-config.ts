@@ -33,32 +33,42 @@ export const authOptions: NextAuthOptions = {
         mode: { label: "Mode", type: "text" },
       },
       async authorize(credentials) {
-        if (!credentials?.login || !credentials?.password) {
-          return null;
-        }
+        if (!credentials?.login || !credentials?.password) return null;
 
         try {
-          // Simple WordPress REST API login
-          const response = await fetch(`${process.env.NEXT_PUBLIC_WP_API}/wp/v2/users/me`, {
-            method: 'GET',
+          const base = process.env.NEXT_PUBLIC_WP_API;
+          const apiKey = process.env.NEXT_PUBLIC_WP_HEADLESS_API_KEY;
+          if (!base || !apiKey) {
+            console.error("Missing NEXT_PUBLIC_WP_API or NEXT_PUBLIC_WP_HEADLESS_API_KEY");
+            return null;
+          }
+
+          const response = await fetch(`${base}/lama/v1/auth/password-login`, {
+            method: 'POST',
             headers: {
-              'Authorization': `Basic ${btoa(`${credentials.login}:${credentials.password}`)}`,
+              'Content-Type': 'application/json',
+              'x-api-key': apiKey,
             },
+            body: JSON.stringify({
+              login: String(credentials.login),
+              password: String(credentials.password),
+            }),
           });
 
-          if (response.ok) {
-            const user = await response.json();
-            return {
-              id: user.id.toString(),
-              email: user.email,
-              name: user.name,
-            };
-          }
+          if (!response.ok) return null;
+          const data = await response.json();
+          if (!data?.success || !data?.user) return null;
+
+          const user = data.user;
+          return {
+            id: String(user.id),
+            email: String(user.email || ''),
+            name: String(user.name || user.username || ''),
+          };
         } catch (error) {
           console.error("Login error:", error);
+          return null;
         }
-
-        return null;
       },
     }),
   ],

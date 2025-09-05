@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 
 interface SlideData {
   id: number;
@@ -55,6 +56,7 @@ const slides: SlideData[] = [
 ];
 
 export default function HeroSection() {
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -99,6 +101,21 @@ export default function HeroSection() {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
+
+  const getDesignatedEmail = (title: string): string => {
+    switch (title) {
+      case "Store Leasing & Management":
+        return "Susanna@quicktrackinc.com";
+      case "Fuel Branding & Supply":
+        return "sandy.malla@quicktrackinc.com";
+      case "Wholesale Distribution":
+        return "shakil@quicktrackinc.com";
+      case "Construction & Renovation":
+        return "ram@quicktrackinc.com";
+      default:
+        return "info@lamagroup.com";
+    }
+  };
 
   return (
     <section 
@@ -152,8 +169,11 @@ export default function HeroSection() {
                       {slide.description}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <a
-                        href="#contact"
+                      <button
+                        onClick={() => {
+                          const email = getDesignatedEmail(slide.title);
+                          router.push(`/book?service=${encodeURIComponent(slide.title)}&email=${encodeURIComponent(email)}`);
+                        }}
                         className="group inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-blue-600 text-white font-semibold text-base sm:text-lg shadow-lg transition-all duration-300 hover:bg-blue-700 hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-blue-300 hover:ring-2 hover:ring-blue-400"
                         aria-label="Book a Strategy Session with Lama Group"
                       >
@@ -161,7 +181,7 @@ export default function HeroSection() {
                         <svg className="w-4 sm:w-5 h-4 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
-                      </a>
+                      </button>
                       <a
                         href={slide.secondaryCTALink}
                         className="group inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full border-2 border-white text-white font-semibold text-base sm:text-lg bg-white/20 backdrop-blur-sm transition-all duration-300 hover:bg-white/30 hover:border-white/80 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-white/50 shadow-lg hover:shadow-xl"
