@@ -70,10 +70,10 @@ export default function HeroSection() {
     setIsAutoPlaying(false);
   }, []);
 
-  const goToSlide = useCallback((index: number) => {
-    setCurrentSlide(index);
-    setIsAutoPlaying(false);
-  }, []);
+  // const goToSlide = useCallback((index: number) => {
+  //   setCurrentSlide(index);
+  //   setIsAutoPlaying(false);
+  // }, []);
 
   const handleMouseEnter = useCallback(() => {
     setIsAutoPlaying(false);

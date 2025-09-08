@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { requestOtp } from "@/lib/wp-auth";
+// import { requestOtp } from "@/lib/wp-auth";
 import SocialButtons from "@/components/SocialButtons";
 
 function useCallbackUrl() {
@@ -38,7 +38,7 @@ function AuthForm() {
     setErr(null); setLoading(true);
     try {
       await signIn("credentials", { redirect: true, callbackUrl, identifier: loginIdentifier, email: loginIdentifier, password: loginPassword, mode: "password" });
-    } catch (e: any) {
+    } catch {
       setErr("Invalid credentials.");
     } finally { setLoading(false); }
   }

@@ -34,7 +34,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
     [p?.acf?.address, p?.acf?.city, p?.acf?.state, p?.acf?.zip].filter(Boolean).join(", ");
 
   const priceVisible = p?.acf?.pricevisibility !== "login" || isAuthed;
-  const contactVisible = p?.acf?.contactvisibility !== "login" || isAuthed;
+  // const contactVisible = p?.acf?.contactvisibility !== "login" || isAuthed;
 
   const priceText =
     typeof p?.acf?.price === "number"

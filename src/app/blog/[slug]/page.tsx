@@ -3,7 +3,7 @@ import { POST_BY_SLUG, RELATED_POSTS } from "@/lib/queries/posts";
 import Image from "next/image";
 import { readingTimeFromHtml, formatDate, buildHtmlWithIdsAndToc, stripHtml } from "@/lib/blog";
 import { notFound } from "next/navigation";
-import PostCard from "@/components/PostCard";
+// import PostCard from "@/components/PostCard";
 import ArticleAside from "@/components/ArticleAside";
 
 type Params = { params: Promise<{ slug: string }> };

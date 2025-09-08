@@ -22,7 +22,7 @@ export default async function LeasingIndex({ searchParams }: Props) {
   const size   = (params.size as string) || "";
   const sort   = (params.sort as string) || "default";
 
-  const dealTypes = type === "sale" ? ["for-sale"] : type === "lease" ? ["for-lease"] : [];
+  // const dealTypes = type === "sale" ? ["for-sale"] : type === "lease" ? ["for-lease"] : [];
 
   const session = await getServerSession(authOptions).catch(() => null);
   const isAuthed = Boolean(session);
