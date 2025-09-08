@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
       subject: `Booking Confirmed: ${booking.service}`,
       html,
     });
-  } catch (e) {
+  } catch {
     // If email sending fails, do not delete booking so they can retry
     return new Response("Failed to send confirmation email.", { status: 500, headers: { "Content-Type": "text/html" } });
   }
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
     <html><body style="font-family:Arial,sans-serif">
       <div style="max-width:640px;margin:40px auto;padding:24px;border:1px solid #e5e7eb;border-radius:12px">
         <h1 style="margin:0 0 12px 0">Booking accepted and meeting link sent.</h1>
-        <p>We have emailed ${booking.email} with the Google Meet link.</p>
+        <p>We have emailed ${booking.userEmail} with the Google Meet link.</p>
       </div>
     </body></html>
   `;
