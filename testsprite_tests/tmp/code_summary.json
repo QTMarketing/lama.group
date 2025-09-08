@@ -1,0 +1,182 @@
+{
+  "tech_stack": [
+    "TypeScript",
+    "Next.js 15",
+    "React 19",
+    "Tailwind CSS",
+    "Firebase",
+    "NextAuth.js",
+    "Nodemailer",
+    "WordPress REST API",
+    "AOS (Animate On Scroll)",
+    "GSAP",
+    "Radix UI",
+    "Embla Carousel",
+    "Lucide React"
+  ],
+  "features": [
+    {
+      "name": "Authentication System",
+      "description": "Complete authentication system with Firebase and NextAuth.js integration",
+      "files": [
+        "src/lib/auth-config.ts",
+        "src/lib/firebase.ts",
+        "src/lib/wp-auth.ts",
+        "src/context/AuthContext.tsx",
+        "src/app/api/auth/[...nextauth]/route.ts",
+        "src/app/login/page.tsx",
+        "src/app/sign-up/page.tsx",
+        "src/app/signup/page.tsx",
+        "src/components/AuthButton.tsx",
+        "src/components/AuthLinks.tsx",
+        "src/components/AuthTabs.tsx",
+        "src/components/auth/GoogleButton.tsx",
+        "src/components/auth/PasswordField.tsx",
+        "src/components/auth/PasswordStrengthBar.tsx"
+      ]
+    },
+    {
+      "name": "Booking System",
+      "description": "Complete booking approval workflow with email notifications",
+      "files": [
+        "src/app/book/page.tsx",
+        "src/app/api/book-session/route.ts",
+        "src/app/api/accept-booking/route.ts",
+        "src/lib/bookings.ts",
+        "src/lib/mailer.ts"
+      ]
+    },
+    {
+      "name": "Navigation Components",
+      "description": "Responsive navigation system with mobile menu and user dropdown",
+      "files": [
+        "src/components/navigation/MainNavBar.tsx",
+        "src/components/navigation/TopNavBar.tsx",
+        "src/components/navigation/Footer.tsx",
+        "src/components/navigation/QuickLinksBar.tsx"
+      ]
+    },
+    {
+      "name": "Hero Section",
+      "description": "Interactive hero slider with service cards and CTAs",
+      "files": [
+        "src/components/HeroSection.tsx",
+        "src/components/HeroSlider.tsx"
+      ]
+    },
+    {
+      "name": "Service Components",
+      "description": "Service-related components and pages",
+      "files": [
+        "src/components/ServiceBar.tsx",
+        "src/components/WhyLama.tsx",
+        "src/app/who-we-are/page.tsx",
+        "src/app/store-leasing/page.tsx",
+        "src/app/construction-renovation/page.tsx",
+        "src/app/maintenance-support/page.tsx"
+      ]
+    },
+    {
+      "name": "Property Management",
+      "description": "Property listing and detail pages with Firebase integration",
+      "files": [
+        "src/app/leasing/[slug]/page.tsx",
+        "src/app/properties/[slug]/page.tsx",
+        "src/components/PropertyCard.tsx",
+        "src/components/PropertyCardExact.tsx",
+        "src/components/PropertyFilters.tsx",
+        "src/components/property/AccordionGroup.tsx",
+        "src/components/property/FeatureChips.tsx",
+        "src/components/property/Gallery.tsx",
+        "src/components/property/PropertyHero.tsx",
+        "src/components/property/QuickFactsCard.tsx",
+        "src/components/property/RelatedProperties.tsx",
+        "src/components/property/Skeletons.tsx",
+        "src/components/property/StickyCTA.tsx"
+      ]
+    },
+    {
+      "name": "Blog System",
+      "description": "Blog listing and detail pages with WordPress integration",
+      "files": [
+        "src/app/blog/page.tsx",
+        "src/app/blog/[slug]/page.tsx",
+        "src/app/blogs/page.tsx",
+        "src/app/blogs/[slug]/page.tsx",
+        "src/components/BlogHero.tsx",
+        "src/components/FeaturedPostCard.tsx",
+        "src/components/PostCard.tsx",
+        "src/components/PostListItem.tsx",
+        "src/components/RecentPostCard.tsx",
+        "src/components/HomepageBlog.tsx",
+        "src/lib/blog.ts",
+        "src/lib/queries/posts.ts"
+      ]
+    },
+    {
+      "name": "Contact System",
+      "description": "Contact forms and partnership dealer forms",
+      "files": [
+        "src/app/contact/page.tsx",
+        "src/components/ContactCard.tsx",
+        "src/components/ContactUs.tsx",
+        "src/components/PartnershipDealerForm.tsx",
+        "src/app/api/partnership-dealer/route.ts"
+      ]
+    },
+    {
+      "name": "Utility Functions",
+      "description": "Helper functions and utilities",
+      "files": [
+        "src/lib/utils.ts",
+        "src/lib/format.ts",
+        "src/lib/normalizeImage.ts",
+        "src/lib/useCurrentRelativeUrl.ts",
+        "src/lib/wp.ts",
+        "src/lib/wpClient.ts",
+        "src/lib/property.ts",
+        "src/lib/queries/property.ts",
+        "src/lib/queries/property-free.ts",
+        "src/lib/queries/property-detail-free.ts"
+      ]
+    },
+    {
+      "name": "UI Components",
+      "description": "Reusable UI components and layouts",
+      "files": [
+        "src/components/ui/button.tsx",
+        "src/components/ui/carousel.tsx",
+        "src/components/ui/dialog.tsx",
+        "src/components/DecorTile.tsx",
+        "src/components/FeaturedListItem.tsx",
+        "src/components/CategoryTag.tsx",
+        "src/components/SocialButtons.tsx",
+        "src/components/StatusBar.tsx",
+        "src/components/LaMaLanding.tsx"
+      ]
+    },
+    {
+      "name": "Type Definitions",
+      "description": "TypeScript type definitions",
+      "files": [
+        "src/types/property.ts",
+        "src/types/aos.d.ts"
+      ]
+    },
+    {
+      "name": "WordPress Integration",
+      "description": "WordPress CMS integration with custom plugins",
+      "files": [
+        "cms/wp-content/mu-plugins/lama-core.php",
+        "cms/wp-content/mu-plugins/lama-cors.php",
+        "cms/wp-content/mu-plugins/lama-auth-api.php",
+        "cms/wp-content/mu-plugins/lama-headless-auth.php",
+        "cms/wp-content/mu-plugins/lama-partnership-form.php",
+        "cms/wp-content/mu-plugins/lama-property-cpt.php",
+        "cms/wp-content/mu-plugins/lama-register-endpoint.php",
+        "cms/wp-content/mu-plugins/lama-theme-supports.php",
+        "cms/wp-content/mu-plugins/lama-auto-map.php"
+      ]
+    }
+  ]
+}

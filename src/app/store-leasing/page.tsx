@@ -1,4 +1,4 @@
-import { wpRequest } from "@/lib/wpClient";
+import { wpClient } from "@/lib/wpClient";
 import { LIST_PROPERTIES_TAX_FREE, TAXONOMY_TERMS } from "@/lib/queries/property-free";
 import PropertyFilters from "@/components/PropertyFilters";
 import PropertyCardExact from "@/components/PropertyCardExact";
@@ -27,11 +27,11 @@ export default async function LeasingIndex({ searchParams }: Props) {
   const session = await getServerSession(authOptions).catch(() => null);
   const isAuthed = Boolean(session);
 
-  const terms = await wpRequest<any>(TAXONOMY_TERMS);
+  const terms = await wpClient.request<any>(TAXONOMY_TERMS);
   const regionTerms = terms?.regions?.nodes || [];
 
   // Server-side filtering for taxonomy (Tax Query)
-  const data = await wpRequest<any>(LIST_PROPERTIES_TAX_FREE, {
+  const data = await wpClient.request<any>(LIST_PROPERTIES_TAX_FREE, {
     first: 60,
     after: null,
     search: q || null,
@@ -76,7 +76,7 @@ export default async function LeasingIndex({ searchParams }: Props) {
 
   return (
     <main className="py-8">
-      <div className="mx-auto" style={{ width: 1216 }}>
+      <div className="mx-auto w-full max-w-[1216px] px-4 sm:px-6 lg:px-8">
         <PropertyFilters
           regions={regionTerms}
           initial={{ type, region, q, price, size, sort }}
@@ -110,7 +110,7 @@ export default async function LeasingIndex({ searchParams }: Props) {
             <p className="mt-4 text-sm text-slate-600">
               Showing {items.length} property{items.length !== 1 ? "ies" : ""}
             </p>
-            <div className="grid grid-cols-3 gap-[29px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-[29px]">
               {items.map((n) => <PropertyCardExact key={n.id} node={n} isAuthed={isAuthed} />)}
             </div>
           </>

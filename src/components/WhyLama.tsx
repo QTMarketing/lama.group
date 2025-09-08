@@ -19,8 +19,8 @@ const ITEMS: Item[] = [
     desc: "Expanding footprint powered by a proven, scalable playbook.",
   },
   {
-    value: "0%",
-    title: "Goodwill Fee",
+    value: "$0",
+    title: "Good Will Fee",
     desc: "Transparent, growth-friendly economics—keep more capital working.",
   },
   {

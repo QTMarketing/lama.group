@@ -1,4 +1,4 @@
-import { wpRequest } from "@/lib/wpClient";
+import { wpClient } from "@/lib/wpClient";
 import { POST_BY_SLUG, RELATED_POSTS } from "@/lib/queries/posts";
 import Image from "next/image";
 import { readingTimeFromHtml, formatDate, buildHtmlWithIdsAndToc, stripHtml } from "@/lib/blog";
@@ -13,7 +13,7 @@ export const revalidate = 60;
 
 export async function generateMetadata({ params }: Params) {
   const { slug } = await params;
-  const data = await wpRequest<any>(POST_BY_SLUG, { slug }).catch(() => null);
+  const data = await wpClient.request<any>(POST_BY_SLUG, { slug }).catch(() => null);
   const post = data?.post;
   if (!post) return { title: "Blog" };
 
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Params) {
 
 export default async function PostPage({ params }: Params) {
   const { slug } = await params;
-  const data = await wpRequest<any>(POST_BY_SLUG, { slug }).catch(() => null);
+  const data = await wpClient.request<any>(POST_BY_SLUG, { slug }).catch(() => null);
   const post = data?.post;
   if (!post) return notFound();
 
@@ -51,7 +51,7 @@ export default async function PostPage({ params }: Params) {
   const dateStr = formatDate(post?.date);
 
   const relatedData = cat
-    ? await wpRequest<any>(RELATED_POSTS, { first: 3, category: cat.name, exclude: [post.databaseId] }).catch(() => null)
+    ? await wpClient.request<any>(RELATED_POSTS, { first: 3, category: cat.name, exclude: [post.databaseId] }).catch(() => null)
     : null;
   const related = relatedData?.posts?.nodes || [];
 

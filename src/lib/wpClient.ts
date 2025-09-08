@@ -1,15 +1,27 @@
-export const WP_GRAPHQL_URL = process.env.WP_GRAPHQL_URL!;
+import { GraphQLClient } from 'graphql-request';
+
+const endpoint = process.env.WP_GRAPHQL_URL!;
+
+export const wpClient = new GraphQLClient(endpoint, {
+  headers: {
+    'X-Headless-API-Key': process.env.NEXT_PUBLIC_WP_HEADLESS_API_KEY!,
+  },
+  // no caching or use cache: 'no-store' in Next.js fetch calls
+});
 
 type Vars = Record<string, any>;
 
 export async function wpRequest<T>(query: string, variables?: Vars, token?: string): Promise<T> {
   try {
-    const headers: HeadersInit = { "Content-Type": "application/json" };
+    const headers: HeadersInit = { 
+      "Content-Type": "application/json",
+      'X-Headless-API-Key': process.env.NEXT_PUBLIC_WP_HEADLESS_API_KEY!,
+    };
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
     
-    const res = await fetch(WP_GRAPHQL_URL, {
+    const res = await fetch(endpoint, {
       method: "POST",
       headers,
       body: JSON.stringify({ query, variables }),

@@ -1,0 +1,72 @@
+/* CSS variables moved to globals.css */
+
+.pill {
+  background: var(--pill-bg);
+  border-radius: var(--pill-radius);
+  overflow: hidden;
+  padding: 15px; /* 15px padding on all sides */
+}
+
+.track {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: stretch;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  padding: var(--seg-pad-y) var(--seg-pad-x);
+  text-decoration: none;
+}
+
+.item + .item {
+  box-shadow: inset 1px 0 0 var(--divider-color);
+}
+
+.item + .item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--line-inset);
+  bottom: var(--line-inset);
+  width: var(--visual-gap);
+  background: linear-gradient(to right, rgba(255,255,255,0.28), rgba(255,255,255,0));
+  pointer-events: none;
+}
+
+.chev {
+  width: 16px;
+  height: 16px;
+  stroke: #fff;
+  stroke-width: 2;
+  fill: none;
+  transition: transform .15s ease;
+}
+
+.item:hover .chev { transform: translateX(2px); }
+
+.item:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -3px;
+  border-radius: 12px;
+}
+
+@media (max-width: 767px) {
+  .track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(160px, 1fr);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  .item { scroll-snap-align: start; }
+}
+
+

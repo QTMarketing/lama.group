@@ -1,4 +1,4 @@
-import { wpRequest } from "@/lib/wpClient";
+import { wpClient } from "@/lib/wpClient";
 import { FEATURED_POSTS, HOME_POSTS } from "@/lib/queries/posts";
 import Image from "next/image";
 import Link from "next/link";
@@ -60,8 +60,8 @@ function LatestListItem({ post }: { post: any }) {
 
 export default async function HomeBlogs() {
   const [featuredData, latestData] = await Promise.all([
-    wpRequest<any>(FEATURED_POSTS, { first: 6 }).catch(() => ({ posts: { nodes: [] } })),
-    wpRequest<any>(HOME_POSTS, { first: 6 }).catch(() => ({ posts: { nodes: [] } })),
+    wpClient.request<any>(FEATURED_POSTS, { first: 6 }).catch(() => ({ posts: { nodes: [] } })),
+    wpClient.request<any>(HOME_POSTS, { first: 6 }).catch(() => ({ posts: { nodes: [] } })),
   ]);
 
   const featured = featuredData?.posts?.nodes || [];

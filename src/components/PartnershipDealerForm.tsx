@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
-export default function PartnershipDealerForm({ ctaClassName = "" }: { ctaClassName?: string }) {
+export default function PartnershipDealerForm({ ctaClassName = "", inline = false }: { ctaClassName?: string; inline?: boolean }) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [additional, setAdditional] = useState("");
 
@@ -37,8 +38,161 @@ export default function PartnershipDealerForm({ ctaClassName = "" }: { ctaClassN
     setOpen(false);
   };
 
+  // Add dark-red * to all required field labels
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const form = root.querySelector("form");
+    if (!form) return;
+
+    const fields = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+      "input[required], textarea[required], select[required], input[aria-required='true'], textarea[aria-required='true'], select[aria-required='true']"
+    );
+    fields.forEach((field) => {
+      if (!field.hasAttribute("aria-required")) field.setAttribute("aria-required", "true");
+      const id = field.getAttribute("id");
+      let label: HTMLLabelElement | null = null;
+      if (id) label = form.querySelector(`label[for='${CSS.escape(id)}']`);
+      if (!label) label = field.closest("label");
+      if (!label) {
+        const maybe = field.parentElement?.querySelector("label");
+        if (maybe) label = maybe as HTMLLabelElement;
+      }
+      if (label && !label.querySelector(".reqStar")) {
+        const star = document.createElement("span");
+        star.className = "reqStar";
+        star.setAttribute("aria-hidden", "true");
+        star.textContent = "*";
+        label.appendChild(star);
+      }
+    });
+  }, []);
+
+  // If inline: render only the form content (for hero modal)
+  if (inline) {
+    return (
+      <div className="relative" ref={rootRef}>
+        <div className="flex items-center justify-between border-b px-5 py-4">
+          <h2 className="text-xl font-semibold text-slate-900">Partnership Dealer Opportunities Form</h2>
+        </div>
+        <div className="px-5 py-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <Field label="Name">
+              <input required type="text" name="name" className="input" />
+            </Field>
+
+            <Field label="Email">
+              <input required type="email" name="email" className="input" />
+            </Field>
+
+            <Field label="Current Occupation">
+              <input required type="text" name="currentOccupation" className="input" />
+            </Field>
+
+            <Field label="Address">
+              <textarea required name="address" className="textarea" rows={3} />
+            </Field>
+
+            <Field label="Education">
+              <input required type="text" name="education" className="input" />
+            </Field>
+
+            <Field label="Do you own a convenience store/ gas station?">
+              <Radio name="ownStore" required />
+            </Field>
+
+            <Field label="If yes, for how long?">
+              <input required type="text" name="ownStoreHowLong" className="input" />
+            </Field>
+
+            <Field label="Address? (allow space for multiple addresses)">
+              <textarea required name="ownStoreAddresses" className="textarea" rows={3} />
+            </Field>
+
+            <Field label="Have you worked in a convenience store/ gas station?">
+              <Radio name="workedStore" required />
+            </Field>
+
+            <Field label="If yes, for how long?">
+              <input required type="text" name="workedStoreHowLong" className="input" />
+            </Field>
+
+            <Field label="Address? (allow space for multiple addresses)">
+              <textarea required name="workedStoreAddresses" className="textarea" rows={3} />
+            </Field>
+
+            <Field label="Current Business Address">
+              <textarea required name="currentBusinessAddress" className="textarea" rows={3} />
+            </Field>
+
+            <Field label="Years of Operation (Current Business)">
+              <input required type="text" name="yearsOfOperation" className="input" />
+            </Field>
+
+            <Field label="Trade References (minimum 3 required, must include company name, contact person, number or email address)">
+              <textarea name="tradeReferences" className="textarea" rows={4} required />
+            </Field>
+
+            <Field label="Annual Income">
+              <input required type="text" name="annualIncome" className="input" />
+            </Field>
+
+            <Field label="Liquid Cash-on-Hand">
+              <input required type="text" name="liquidCash" className="input" />
+            </Field>
+
+            <Field label="What is the initial investment amount you are willing to make?">
+              <input required type="text" name="initialInvestment" className="input" />
+            </Field>
+
+            <Field label="Are you willing to relocate?">
+              <Radio name="relocate" required />
+            </Field>
+
+            <Field label="Personal References (minimum 2 required, must include name, relationship, contact information)">
+              <textarea required name="personalReferences" className="textarea" rows={3} />
+            </Field>
+
+            <Field label="Additional Questions/Remarks (200 words max)">
+              <textarea
+                className="textarea"
+                rows={4}
+                value={additional}
+                onChange={(e) => setAdditional(e.target.value)}
+                name="additionalRemarks"
+                required
+              />
+              <div className={`mt-1 text-xs ${wordCount > 200 ? "text-red-600" : "text-slate-500"}`}>
+                {wordCount}/200 words
+              </div>
+            </Field>
+
+            <div className="pt-2">
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center rounded-full px-5 py-2.5 font-bold text-white transition-colors bg-[#FFA559] hover:bg-[#FF8C42]"
+                disabled={wordCount > 200}
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+        <style jsx>{`
+          .input { width: 100%; border-radius: 10px; border: 1px solid #e5e7eb; padding: 10px 12px; outline: none; transition: box-shadow 0.2s ease; }
+          .input:focus { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); }
+          .textarea { width: 100%; border-radius: 10px; border: 1px solid #e5e7eb; padding: 10px 12px; outline: none; transition: box-shadow 0.2s ease; resize: vertical; }
+          .textarea:focus { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); }
+          label.label { display: block; margin-bottom: 6px; font-weight: 600; color: #111827; }
+          .reqStar { color: #8B0000; margin-left: 4px; font-weight: 700; }
+        `}</style>
+      </div>
+    );
+  }
+
+  // Default behavior: CTA button opens slide-over panel with the form
   return (
-    <div className="relative">
+    <div className="relative" ref={rootRef}>
       <button
         onClick={() => setOpen(true)}
         className={`inline-flex items-center justify-center rounded-md font-medium text-white transition-colors bg-[#f97316] hover:bg-[#ea6a0d] w-[330px] h-[39.99px] ${ctaClassName}`}
@@ -210,6 +364,7 @@ export default function PartnershipDealerForm({ ctaClassName = "" }: { ctaClassN
           font-weight: 600;
           color: #111827;
         }
+        .reqStar { color: #8B0000; margin-left: 4px; font-weight: 700; }
       `}</style>
     </div>
   );

@@ -1,4 +1,4 @@
-import { wpRequest } from "@/lib/wpClient";
+import { wpClient } from "@/lib/wpClient";
 import { PROPERTY_DETAIL_FREE } from "@/lib/queries/property-detail-free";
 import { acfImg } from "@/lib/normalizeImage";
 import { formatSize, buildGoogleEmbedNoKey } from "@/lib/format";
@@ -13,7 +13,7 @@ export const revalidate = 60;
 export default async function PropertyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
-  const data = await wpRequest<any>(PROPERTY_DETAIL_FREE, { slug });
+  const data = await wpClient.request<any>(PROPERTY_DETAIL_FREE, { slug });
   const p = data?.property;
   if (!p) return notFound();
 

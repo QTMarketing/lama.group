@@ -1,4 +1,4 @@
-import { wpRequest } from "@/lib/wpClient";
+import { wpClient } from "@/lib/wpClient";
 import { POSTS_INDEX_PAGED, FEATURED_POSTS } from "@/lib/queries/posts";
 import BlogHero from "@/components/BlogHero";
 import PostCard from "@/components/PostCard";
@@ -15,8 +15,8 @@ export default async function BlogIndexPage({ searchParams }: Props) {
   const { after } = await searchParams;
 
   const [featuredData, recentData] = await Promise.all([
-    wpRequest<any>(FEATURED_POSTS, { first: 6 }).catch(() => ({ posts: { nodes: [] } })),
-    wpRequest<any>(POSTS_INDEX_PAGED, { first: 12, after }).catch(() => ({ posts: { nodes: [], pageInfo: {} } })),
+    wpClient.request<any>(FEATURED_POSTS, { first: 6 }).catch(() => ({ posts: { nodes: [] } })),
+    wpClient.request<any>(POSTS_INDEX_PAGED, { first: 12, after }).catch(() => ({ posts: { nodes: [], pageInfo: {} } })),
   ]);
 
   const featured = featuredData?.posts?.nodes || [];

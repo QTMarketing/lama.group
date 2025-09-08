@@ -3,8 +3,9 @@ import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import HeroSection from './HeroSection';
-import ServiceBar from './ServiceBar';
 import WhyLama from './WhyLama';
+import ServicesPillBar from './ServicesPillBar';
+// Services strip removed per request
 
 export default function LaMaLanding() {
   useEffect(() => {
@@ -20,8 +21,12 @@ export default function LaMaLanding() {
         </div>
       </section>
 
-      {/* Services bar below the hero */}
-      <ServiceBar />
+      {/* Services CTA Pill Bar under hero */}
+      <section className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1680px]">
+          <ServicesPillBar />
+        </div>
+      </section>
 
       {/* Why LaMa Section */}
       <WhyLama />

@@ -1,5 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+
+  // Remote images:
+  images: {
+    remotePatterns: [
+      // local dev
+      { protocol: 'http',  hostname: 'localhost', port: '8080', pathname: '/**' },
+      // production CMS
+      { protocol: 'https', hostname: 'cms.lama.group',   pathname: '/**' },
+      // if you ever use your Vercel domain for images
+      { protocol: 'https', hostname: 'lama-group-website.vercel.app', pathname: '/**' },
+      // common external sources
+      { protocol: 'https', hostname: 'secure.gravatar.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+    ]
+  },
+
+  // Your existing redirects
   async redirects() {
     return [
       {
@@ -15,16 +33,6 @@ const nextConfig = {
         permanent: false,
       },
     ];
-  },
-  images: {
-    remotePatterns: [
-      { protocol: "http", hostname: "localhost", port: "8080" },
-      { protocol: "https", hostname: "localhost", port: "8080" },
-      { protocol: "https", hostname: "lamagroup.com" },
-      { protocol: "https", hostname: "www.lamagroup.com" },
-      { protocol: "https", hostname: "secure.gravatar.com" },
-      { protocol: "https", hostname: "images.unsplash.com" },
-    ],
   },
 };
 

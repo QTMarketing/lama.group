@@ -26,6 +26,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
     }),
     CredentialsProvider({
+      id: 'wp-credentials',
       name: "credentials",
       credentials: {
         login: { label: "Email", type: "email" },
@@ -36,22 +37,24 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.login || !credentials?.password) return null;
 
         try {
-          const base = process.env.NEXT_PUBLIC_WP_API;
+          // Use NEXT_PUBLIC_CMS_URL for the WordPress API base URL
+          const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL || process.env.NEXT_PUBLIC_WP_API;
           const apiKey = process.env.NEXT_PUBLIC_WP_HEADLESS_API_KEY;
-          if (!base || !apiKey) {
-            console.error("Missing NEXT_PUBLIC_WP_API or NEXT_PUBLIC_WP_HEADLESS_API_KEY");
+          
+          if (!cmsUrl || !apiKey) {
+            console.error("Missing NEXT_PUBLIC_CMS_URL or NEXT_PUBLIC_WP_HEADLESS_API_KEY");
             return null;
           }
 
-          const response = await fetch(`${base}/lama/v1/auth/password-login`, {
+          const response = await fetch(`${cmsUrl}/lama/v1/auth/password-login`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'x-api-key': apiKey,
             },
             body: JSON.stringify({
-              login: String(credentials.login),
-              password: String(credentials.password),
+              user: String(credentials.login),
+              pass: String(credentials.password),
             }),
           });
 
