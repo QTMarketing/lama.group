@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   title: "LaMa Group - Modern Corporate Solutions",
   description: "LaMa Group provides innovative business solutions including fuel management, wholesale services, and corporate consulting.",
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
-    apple: '/favicon.svg',
+    icon: '/lamagrouplogo.svg',
+    shortcut: '/lamagrouplogo.svg',
+    apple: '/lamagrouplogo.svg',
   },
 };
 
