@@ -14,6 +14,7 @@ error_log('LAMA CORS Plugin: Loading...');
 // Handle CORS for all requests - use send_headers for early execution
 add_action( 'send_headers', function() {
     $allowed_origins = [
+        'https://www.lama.group',
         'https://lama-group-website.vercel.app',
         'http://localhost:3000', // keep for local dev
     ];
@@ -44,6 +45,7 @@ add_action( 'rest_api_init', function() {
     remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
     add_filter( 'rest_pre_serve_request', function( $value ) {
         $allowed_origins = [
+            'https://www.lama.group',
             'https://lama-group-website.vercel.app',
             'http://localhost:3000', // keep for local dev
         ];
