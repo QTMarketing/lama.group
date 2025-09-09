@@ -1,4 +1,12 @@
 /** @type {import('next').NextConfig} */
+
+// Debug environment variables
+console.log('ENV ↓');
+console.log('NEXT_PUBLIC_CMS_URL:', process.env.NEXT_PUBLIC_CMS_URL);
+console.log('NEXT_PUBLIC_WP_API:', process.env.NEXT_PUBLIC_WP_API);
+console.log('WP_GRAPHQL_URL:', process.env.WP_GRAPHQL_URL);
+console.log('NEXT_PUBLIC_WP_HEADLESS_API_KEY:', process.env.NEXT_PUBLIC_WP_HEADLESS_API_KEY ? '***SET***' : 'UNDEFINED');
+
 const nextConfig = {
   reactStrictMode: true,
 

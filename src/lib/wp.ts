@@ -9,7 +9,8 @@ export type MappedPost = {
   slug: string;
 };
 
-const API_BASE = process.env.NEXT_PUBLIC_WP_API || "http://localhost:8080/wp-json";
+const API_BASE = process.env.NEXT_PUBLIC_WP_API!;
+if (!API_BASE) throw new Error('NEXT_PUBLIC_WP_API is not defined');
 
 function wpUrl(path: string, params?: Record<string, string | number | boolean | undefined>) {
   const url = new URL(path.replace(/^\//, ""), API_BASE.endsWith("/") ? API_BASE : API_BASE + "/");
@@ -52,7 +53,7 @@ export function mapPost(p: any): MappedPost {
   return {
     id: Number(p?.id || 0),
     title,
-    excerpt: excerptHtml,
+    excerpt: stripHtml(excerptHtml),
     featuredImage,
     category,
     authorName,
@@ -168,29 +169,7 @@ export async function getRecentPostsForHomepage(limit: number): Promise<MappedPo
 
     const posts = await res.json();
 
-    return posts.map((post: any) => {
-      const featuredImage =
-        post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '/placeholder.jpg';
-      const category =
-        post._embedded?.['wp:term']?.[0]?.[0]?.name || 'Uncategorized';
-      const authorName =
-        post._embedded?.author?.[0]?.name || 'Unknown';
-      const readingTime =
-        post.acf?.reading_time
-          ? Number(post.acf.reading_time)
-          : computeReadingTime(stripHtml(post.content?.rendered || ''));
-
-      return {
-        id: post.id,
-        title: post.title?.rendered || '',
-        excerpt: stripHtml(post.excerpt?.rendered || ''),
-        featuredImage,
-        category,
-        authorName,
-        readingTime,
-        slug: post.slug,
-      };
-    });
+    return posts.map((post: any) => mapPost(post));
   } catch (error) {
     console.error('Failed to fetch recent posts for homepage:', error);
     throw error;

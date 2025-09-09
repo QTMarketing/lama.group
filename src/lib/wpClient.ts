@@ -1,10 +1,14 @@
 import { GraphQLClient } from 'graphql-request';
 
 const endpoint = process.env.WP_GRAPHQL_URL!;
+if (!endpoint) throw new Error('WP_GRAPHQL_URL is not defined');
+
+const headlessApiKey = process.env.NEXT_PUBLIC_WP_HEADLESS_API_KEY!;
+if (!headlessApiKey) throw new Error('NEXT_PUBLIC_WP_HEADLESS_API_KEY is not defined');
 
 export const wpClient = new GraphQLClient(endpoint, {
   headers: {
-    'X-Headless-API-Key': process.env.NEXT_PUBLIC_WP_HEADLESS_API_KEY!,
+    'X-Headless-API-Key': headlessApiKey,
   },
   // no caching or use cache: 'no-store' in Next.js fetch calls
 });
@@ -15,7 +19,7 @@ export async function wpRequest<T>(query: string, variables?: Vars, token?: stri
   try {
     const headers: HeadersInit = { 
       "Content-Type": "application/json",
-      'X-Headless-API-Key': process.env.NEXT_PUBLIC_WP_HEADLESS_API_KEY!,
+      'X-Headless-API-Key': headlessApiKey,
     };
     if (token) {
       headers.Authorization = `Bearer ${token}`;
