@@ -31,7 +31,10 @@ export async function fetchREST(path: string, init?: RequestInit) {
   return res.json();
 }
 
-export async function fetchGraphQL<T = any>(query: string, variables?: Record<string, unknown>): Promise<T> {
+export async function fetchGraphQL<T = any>(query: string, variables: Record<string, unknown> = {}): Promise<T> {
+  if (!query) {
+    throw new Error('fetchGraphQL was called without a query string');
+  }
   const res = await fetch(GRAPHQL_URL, {
     method: 'POST',
     headers: {
@@ -41,10 +44,17 @@ export async function fetchGraphQL<T = any>(query: string, variables?: Record<st
     body: JSON.stringify({ query, variables }),
     cache: 'no-store',
   });
-  if (!res.ok) throw new Error(`GraphQL fetch failed: ${res.status}`);
-  const json = await res.json();
-  if (json.errors) throw new Error(`GraphQL errors: ${JSON.stringify(json.errors)}`);
-  return json.data as T;
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`GraphQL fetch failed: ${res.status} ${errText}`);
+  }
+  const { data, errors } = await res.json();
+  if (errors) {
+    // eslint-disable-next-line no-console
+    console.error('GraphQL errors:', errors);
+    throw new Error('GraphQL returned errors; check console');
+  }
+  return data as T;
 }
 
 export { REST_BASE, GRAPHQL_URL };

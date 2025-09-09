@@ -1,5 +1,6 @@
 import { wpClient } from "@/lib/wpClient";
 import { LIST_PROPERTIES_TAX_FREE, TAXONOMY_TERMS } from "@/lib/queries/property-free";
+import { fetchGraphQL } from "@/lib/cms";
 import PropertyFilters from "@/components/PropertyFilters";
 import PropertyCardExact from "@/components/PropertyCardExact";
 import { getServerSession } from "next-auth";
@@ -38,7 +39,7 @@ export default async function LeasingIndex({ searchParams }: Props) {
   // Server-side filtering for taxonomy (Tax Query)
   let items: any[] = [];
   try {
-    const data = await wpClient.request<any>(LIST_PROPERTIES_TAX_FREE, {
+    const data = await fetchGraphQL<any>(LIST_PROPERTIES_TAX_FREE, {
       first: 60,
       after: null,
       search: q || null,
