@@ -1,5 +1,6 @@
 import { wpClient } from "@/lib/wpClient";
 import { PROPERTY_DETAIL_FREE } from "@/lib/queries/property-detail-free";
+import { fetchGraphQL } from "@/lib/cms";
 import { acfImg } from "@/lib/normalizeImage";
 import { formatSize, buildGoogleEmbedNoKey } from "@/lib/format";
 import Image from "next/image";
@@ -9,6 +10,21 @@ import PartnershipDealerForm from "@/components/PartnershipDealerForm";
 import { authOptions } from "@/lib/auth";
 
 export const revalidate = 60;
+
+export const dynamicParams = false; // pre-render only returned slugs
+
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  const LIST_SLUGS = `
+    query AllPropertySlugs($first: Int! = 200) {
+      properties(first: $first, where: { status: PUBLISH }) {
+        nodes { slug }
+      }
+    }
+  `;
+  const data = await fetchGraphQL<any>(LIST_SLUGS);
+  const nodes: { slug: string }[] = data?.properties?.nodes || [];
+  return nodes.filter(Boolean).map((n) => ({ slug: n.slug }));
+}
 
 export default async function PropertyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -26,22 +42,19 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
   const deal = p?.dealTypes?.nodes?.[0]?.slug; // "for-sale" | "for-lease"
   const badge = deal === "for-sale" ? "For Sale" : deal === "for-lease" ? "For Lease" : "Property";
 
-  const hero = acfImg(p?.acf?.heroimage) ||
-    (p?.featuredImage?.node?.sourceUrl ? { url: p.featuredImage.node.sourceUrl, alt: p.title } : null);
+  const hero = (p?.featuredImage?.node?.sourceUrl ? { url: p.featuredImage.node.sourceUrl, alt: p.title } : null);
 
-  const fullAddress =
-    p?.acf?.mapaddress ||
-    [p?.acf?.address, p?.acf?.city, p?.acf?.state, p?.acf?.zip].filter(Boolean).join(", ");
+  const fullAddress = ""; // not exposed in GraphQL yet
 
-  const priceVisible = p?.acf?.pricevisibility !== "login" || isAuthed;
+  const priceVisible = (p?.priceVisibility || "login") !== "login" || isAuthed;
   // const contactVisible = p?.acf?.contactvisibility !== "login" || isAuthed;
 
   const priceText =
-    typeof p?.acf?.price === "number"
-      ? `$${Intl.NumberFormat().format(p.acf.price)}`
-      : (p?.acf?.price ?? "—");
+    typeof p?.price === "number"
+      ? `$${Intl.NumberFormat().format(p.price)}`
+      : (p?.price ?? "—");
 
-  const sizeText = formatSize({ dealSlug: deal, acres: p?.acf?.sizeacres, sqft: p?.acf?.sizesqft });
+  const sizeText = formatSize({ dealSlug: deal, acres: undefined, sqft: undefined });
 
   // Auto-generate overview content
   const generateOverview = () => {
@@ -55,15 +68,14 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
 
   const overviewContent = p?.content || generateOverview();
 
-  const highlights: string[] = (p?.acf?.highlightstext || "")
+  const highlights: string[] = (p?.highlightsText || "")
     .split(/\r?\n/).map((s: string) => s.trim()).filter(Boolean);
-  const amenities: string[] = (p?.acf?.amenitiestext || "")
+  const amenities: string[] = ("")
     .split(/\r?\n/).map((s: string) => s.trim()).filter(Boolean);
 
-  const gallery = [acfImg(p?.acf?.galleryimage1), acfImg(p?.acf?.galleryimage2), acfImg(p?.acf?.galleryimage3)]
-    .filter(Boolean) as { url: string; alt?: string }[];
+  const gallery: { url: string; alt?: string }[] = [];
 
-  const embedSrc = p?.acf?.mapembedurl || buildGoogleEmbedNoKey(fullAddress, 15);
+  const embedSrc = buildGoogleEmbedNoKey(fullAddress, 15);
 
   return (
     <main className="mx-auto max-w-7xl px-4 pb-16 font-sans">
@@ -158,7 +170,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
               <Row label="Size"   value={sizeText} />
               <Row label="Type"   value="Commercial Land" />
               <Row label="Zoning" value="Commercial" />
-              <Row label="Status" value={p?.acf?.status || "Available"} />
+              <Row label="Status" value={"Available"} />
               <div className="flex items-center justify-between gap-4">
                 <dt className="text-[16px] leading-[24px] text-slate-600" style={{fontFamily: 'Plus Jakarta Sans Medium'}}>Price</dt>
                 <dd className="text-right">
