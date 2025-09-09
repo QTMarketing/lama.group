@@ -5,12 +5,13 @@
 console.log('NEXT_PUBLIC_WP_API:', process.env.NEXT_PUBLIC_WP_API);
 // eslint-disable-next-line no-console
 console.log('NEXT_PUBLIC_WP_GRAPHQL_URL:', process.env.NEXT_PUBLIC_WP_GRAPHQL_URL);
+console.log('WP_GRAPHQL_URL (server):', process.env.WP_GRAPHQL_URL);
 
 const REST_BASE = process.env.NEXT_PUBLIC_WP_API!;
 if (!REST_BASE) throw new Error('NEXT_PUBLIC_WP_API is not defined');
 
-const GRAPHQL_URL = process.env.NEXT_PUBLIC_WP_GRAPHQL_URL!;
-if (!GRAPHQL_URL) throw new Error('NEXT_PUBLIC_WP_GRAPHQL_URL is not defined');
+const GRAPHQL_URL = (process.env.WP_GRAPHQL_URL || process.env.NEXT_PUBLIC_WP_GRAPHQL_URL)!;
+if (!GRAPHQL_URL) throw new Error('Missing GraphQL URL (set WP_GRAPHQL_URL or NEXT_PUBLIC_WP_GRAPHQL_URL)');
 
 const HEADLESS_KEY = process.env.NEXT_PUBLIC_WP_HEADLESS_API_KEY!;
 if (!HEADLESS_KEY) throw new Error('NEXT_PUBLIC_WP_HEADLESS_API_KEY is not defined');
