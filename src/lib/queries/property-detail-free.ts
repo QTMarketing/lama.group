@@ -16,7 +16,6 @@ export const PROPERTY_DETAIL_FREE = /* GraphQL */ `
       contactPhone
       contactEmail
       contactVisibility
-      highlightsText
     }
   }
 `;

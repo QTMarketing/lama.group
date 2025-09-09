@@ -68,7 +68,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
 
   const overviewContent = p?.content || generateOverview();
 
-  const highlights: string[] = (p?.highlightsText || "")
+  const highlights: string[] = ("")
     .split(/\r?\n/).map((s: string) => s.trim()).filter(Boolean);
   const amenities: string[] = ("")
     .split(/\r?\n/).map((s: string) => s.trim()).filter(Boolean);
