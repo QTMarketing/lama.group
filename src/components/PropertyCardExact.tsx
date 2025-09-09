@@ -11,19 +11,18 @@ type PropertyNode = {
   title: string;
   dealTypes?: { nodes?: { slug?: string; name?: string }[] };
   acf?: {
-    heroimage?: { url?: string; alt?: string };
+    // hero image may come in either shape depending on query
+    heroimage?: { url?: string; alt?: string; sourceUrl?: string; altText?: string };
     address?: string; city?: string; state?: string; zip?: string;
+    // size can be camelCase or lower-case from different ACF exposures
     sizeAcres?: number | string;
+    sizeacres?: number | string;
+    // price visibility can be camelCase or lower-case
     price?: number | string;
     priceVisibility?: "public" | "login" | string;
-    contactVisibility?: "public" | "login" | string;
-  };
-  acf?: {
-    heroimage?: { sourceUrl?: string; altText?: string };
-    address?: string; city?: string; state?: string; zip?: string;
-    sizeacres?: number | string;
-    price?: number | string;
     pricevisibility?: "public" | "login" | string;
+    // contact visibility variants
+    contactVisibility?: "public" | "login" | string;
     contactvisibility?: "public" | "login" | string;
   };
   featuredImage?: { node?: { sourceUrl?: string; altText?: string } };
