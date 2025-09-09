@@ -1,28 +1,29 @@
-// Centralized CMS helpers with strict env validation
+// Centralized CMS helpers with strict env validation and build-time logs
 
-const CMS_BASE = process.env.NEXT_PUBLIC_CMS_URL!;
-if (!CMS_BASE) throw new Error('Missing NEXT_PUBLIC_CMS_URL');
+// Debug at import time (appears in build logs)
+// eslint-disable-next-line no-console
+console.log('NEXT_PUBLIC_WP_API:', process.env.NEXT_PUBLIC_WP_API);
+// eslint-disable-next-line no-console
+console.log('NEXT_PUBLIC_WP_GRAPHQL_URL:', process.env.NEXT_PUBLIC_WP_GRAPHQL_URL);
 
-const WP_REST_BASE = process.env.NEXT_PUBLIC_WP_API || `${CMS_BASE.replace(/\/$/, '')}/wp-json`;
-if (!WP_REST_BASE) throw new Error('NEXT_PUBLIC_WP_API is not defined');
+const REST_BASE = process.env.NEXT_PUBLIC_WP_API!;
+if (!REST_BASE) throw new Error('NEXT_PUBLIC_WP_API is not defined');
 
-const WP_GRAPHQL_URL = process.env.WP_GRAPHQL_URL!; // server-only
-if (!WP_GRAPHQL_URL) throw new Error('WP_GRAPHQL_URL is not defined');
+const GRAPHQL_URL = process.env.NEXT_PUBLIC_WP_GRAPHQL_URL!;
+if (!GRAPHQL_URL) throw new Error('NEXT_PUBLIC_WP_GRAPHQL_URL is not defined');
 
 const HEADLESS_KEY = process.env.NEXT_PUBLIC_WP_HEADLESS_API_KEY!;
 if (!HEADLESS_KEY) throw new Error('NEXT_PUBLIC_WP_HEADLESS_API_KEY is not defined');
 
-export { CMS_BASE, WP_REST_BASE as REST_BASE, WP_GRAPHQL_URL };
-
-export async function fetchWP(path: string, init?: RequestInit) {
+export async function fetchREST(path: string, init?: RequestInit) {
   const url = path.startsWith('http')
     ? path
-    : `${WP_REST_BASE}${path.startsWith('/') ? '' : '/'}${path}`;
+    : `${REST_BASE}${path.startsWith('/') ? '' : '/'}${path}`;
   const res = await fetch(url, {
     ...init,
     headers: {
       ...(init?.headers || {}),
-      'X-Headless-API-Key': HEADLESS_KEY,
+      'x-headless-api-key': HEADLESS_KEY,
     },
     next: init?.next ?? { revalidate: 60 },
   });
@@ -30,26 +31,22 @@ export async function fetchWP(path: string, init?: RequestInit) {
   return res.json();
 }
 
-type GraphQLRequestOptions = {
-  query: string;
-  variables?: Record<string, unknown>;
-  cache?: RequestCache;
-};
-
-export async function fetchGraphQL<T = any>({ query, variables, cache }: GraphQLRequestOptions): Promise<T> {
-  const res = await fetch(WP_GRAPHQL_URL, {
+export async function fetchGraphQL<T = any>(query: string, variables?: Record<string, unknown>): Promise<T> {
+  const res = await fetch(GRAPHQL_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-Headless-API-Key': HEADLESS_KEY,
+      'x-headless-api-key': HEADLESS_KEY,
     },
     body: JSON.stringify({ query, variables }),
-    cache: cache ?? 'no-store',
+    cache: 'no-store',
   });
   if (!res.ok) throw new Error(`GraphQL fetch failed: ${res.status}`);
   const json = await res.json();
   if (json.errors) throw new Error(`GraphQL errors: ${JSON.stringify(json.errors)}`);
   return json.data as T;
 }
+
+export { REST_BASE, GRAPHQL_URL };
 
 

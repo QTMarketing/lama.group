@@ -8,7 +8,7 @@ export const PROPERTY_DETAIL_FREE = /* GraphQL */ `
       featuredImage { node { sourceUrl altText } }
       dealTypes { nodes { slug name } }
       regions { nodes { slug name } }
-      acf: propertyFields {
+      acf {
         address city state zip
         sizeacres sizesqft
         price

@@ -27,16 +27,26 @@ export default async function LeasingIndex({ searchParams }: Props) {
   const session = await getServerSession(authOptions).catch(() => null);
   const isAuthed = Boolean(session);
 
-  const terms = await wpClient.request<any>(TAXONOMY_TERMS);
-  const regionTerms = terms?.regions?.nodes || [];
+  let regionTerms: any[] = [];
+  try {
+    const terms = await wpClient.request<any>(TAXONOMY_TERMS);
+    regionTerms = terms?.regions?.nodes || [];
+  } catch (err) {
+    console.error('Error loading store leasing (terms):', err);
+  }
 
   // Server-side filtering for taxonomy (Tax Query)
-  const data = await wpClient.request<any>(LIST_PROPERTIES_TAX_FREE, {
-    first: 60,
-    after: null,
-    search: q || null,
-  });
-  let items: any[] = data?.properties?.nodes || [];
+  let items: any[] = [];
+  try {
+    const data = await wpClient.request<any>(LIST_PROPERTIES_TAX_FREE, {
+      first: 60,
+      after: null,
+      search: q || null,
+    });
+    items = data?.properties?.nodes || [];
+  } catch (err) {
+    console.error('Error loading store leasing (list):', err);
+  }
 
   // Client-side price/size filter and sort
   const { min: priceMin, max: priceMax } = parseRange(price);
@@ -51,8 +61,8 @@ export default async function LeasingIndex({ searchParams }: Props) {
     }
     
     // Filter by price and size
-    const p = Number(n?.price ?? n?.propertyFields?.price ?? NaN);
-    const s = Number(n?.propertyFields?.sizeacres ?? NaN);
+    const p = Number(n?.price ?? n?.acf?.price ?? NaN);
+    const s = Number(n?.acf?.sizeacres ?? NaN);
     if (priceMin !== undefined && !(p >= priceMin)) return false;
     if (priceMax !== undefined && !(p <= priceMax)) return false;
     if (sizeMin  !== undefined && !(s >= sizeMin))  return false;
@@ -61,10 +71,10 @@ export default async function LeasingIndex({ searchParams }: Props) {
   });
 
   items.sort((a: any, b: any) => {
-    const pa = Number(a?.price ?? a?.propertyFields?.price ?? NaN);
-    const pb = Number(b?.price ?? b?.propertyFields?.price ?? NaN);
-    const sa = Number(a?.propertyFields?.sizeacres ?? NaN);
-    const sb = Number(b?.propertyFields?.sizeacres ?? NaN);
+    const pa = Number(a?.price ?? a?.acf?.price ?? NaN);
+    const pb = Number(b?.price ?? b?.acf?.price ?? NaN);
+    const sa = Number(a?.acf?.sizeacres ?? NaN);
+    const sb = Number(b?.acf?.sizeacres ?? NaN);
     switch (sort) {
       case "price-asc":  return (pa || Infinity) - (pb || Infinity);
       case "price-desc": return (pb || -Infinity) - (pa || -Infinity);

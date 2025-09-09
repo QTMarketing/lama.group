@@ -10,12 +10,12 @@ export default function PropertyCard({ node }: { node: any }) {
   const img = chooseCardImage(node);
   const deal = node?.dealTypes?.nodes?.[0]?.slug;
   const badge = deal === "for-sale" ? "For Sale" : deal === "for-lease" ? "For Lease" : "Property";
-  const addr = [node?.propertyFields?.address, node?.propertyFields?.city, node?.propertyFields?.state, node?.propertyFields?.zip].filter(Boolean).join(", ");
-  const size = node?.propertyFields?.sizeacres ? `${node.propertyFields.sizeacres} acres` : "—";
+  const addr = [node?.acf?.address, node?.acf?.city, node?.acf?.state, node?.acf?.zip].filter(Boolean).join(", ");
+  const size = (node as any)?.acf?.sizeacres ? `${(node as any).acf.sizeacres} acres` : "—";
   const isLoggedIn = !!session?.user;
   const priceVisible = node?.priceVisibility === "public" || (node?.priceVisibility === "login" && isLoggedIn);
   const contactVisible = node?.contactVisibility === "public" || (node?.contactVisibility === "login" && isLoggedIn);
-  const price = typeof (node?.price ?? node?.propertyFields?.price) === "number" ? `$${Intl.NumberFormat().format(node?.price ?? node?.propertyFields?.price)}` : "—";
+  const price = typeof (node?.price ?? (node as any)?.acf?.price) === "number" ? `$${Intl.NumberFormat().format(node?.price ?? (node as any)?.acf?.price)}` : "—";
 
   return (
     <Link href={`/store-leasing/${node.slug}`} className="block rounded-xl border border-slate-200 overflow-hidden hover:shadow-md transition">

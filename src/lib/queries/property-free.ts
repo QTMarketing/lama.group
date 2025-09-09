@@ -13,7 +13,7 @@ export const PROPERTY_BY_SLUG_FREE = /* GraphQL */ `
       priceVisibility
       contactName contactPhone contactEmail contactVisibility
       highlightsText
-      propertyFields {
+      acf {
         address city state zip
         sizeacres sizesqft
         price
@@ -52,7 +52,7 @@ export const LIST_PROPERTIES_TAX_FREE = /* GraphQL */ `
         regions   { nodes { slug name } }
         price priceVisibility
         contactName contactPhone contactEmail contactVisibility
-        propertyFields {
+        acf {
           address city state zip
           sizeacres sizesqft price pricevisibility
           contactname contactphone contactemail contactvisibility

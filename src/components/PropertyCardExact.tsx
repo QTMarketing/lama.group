@@ -18,7 +18,7 @@ type PropertyNode = {
     priceVisibility?: "public" | "login" | string;
     contactVisibility?: "public" | "login" | string;
   };
-  propertyFields?: {
+  acf?: {
     heroimage?: { sourceUrl?: string; altText?: string };
     address?: string; city?: string; state?: string; zip?: string;
     sizeacres?: number | string;
@@ -31,7 +31,7 @@ type PropertyNode = {
 
 function pickImage(n: PropertyNode) {
   if (n?.acf?.heroimage?.url) return { url: n.acf.heroimage.url, alt: n.acf.heroimage.alt || n.title };
-  if (n?.propertyFields?.heroimage?.sourceUrl) return { url: n.propertyFields.heroimage.sourceUrl, alt: n.propertyFields.heroimage.altText || n.title };
+  if (n?.acf?.heroimage?.sourceUrl) return { url: n.acf.heroimage.sourceUrl, alt: n.acf.heroimage.altText || n.title };
   const wp = n?.featuredImage?.node?.sourceUrl;
   if (wp) return { url: wp, alt: n?.featuredImage?.node?.altText || n.title };
   return null;
@@ -45,12 +45,12 @@ export default function PropertyCardExact({ node, isAuthed = false }: { node: Pr
 
   const sizeText = formatSize({
     dealSlug: deal,
-    acres: node?.acf?.sizeAcres ?? node?.propertyFields?.sizeacres,
-    sqft: (node?.acf as any)?.sizesqft ?? (node?.propertyFields as any)?.sizesqft,
+    acres: node?.acf?.sizeAcres ?? (node as any)?.acf?.sizeacres,
+    sqft: (node?.acf as any)?.sizesqft,
   });
 
-  const priceVisible = ((node?.acf?.priceVisibility || node?.propertyFields?.pricevisibility || "login") !== "login") || isAuthed;
-  const priceValue = node?.acf?.price ?? node?.propertyFields?.price;
+  const priceVisible = ((node?.acf?.priceVisibility || (node as any)?.acf?.pricevisibility || "login") !== "login") || isAuthed;
+  const priceValue = node?.acf?.price ?? (node as any)?.acf?.price;
   const price =
     typeof priceValue === "number"
       ? `$${Intl.NumberFormat().format(priceValue)}`
@@ -58,7 +58,7 @@ export default function PropertyCardExact({ node, isAuthed = false }: { node: Pr
       ? priceValue
       : "—";
 
-  const contactVisible = ((node?.acf?.contactVisibility || node?.propertyFields?.contactvisibility || "login") !== "login") || isAuthed;
+  const contactVisible = ((node?.acf?.contactVisibility || (node as any)?.acf?.contactvisibility || "login") !== "login") || isAuthed;
 
   return (
     <Link
