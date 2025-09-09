@@ -12,6 +12,7 @@ import { authOptions } from "@/lib/auth";
 export const revalidate = 60;
 
 export const dynamicParams = false; // pre-render only returned slugs
+export const revalidate = 60; // ISR for freshness
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const LIST_SLUGS = `
