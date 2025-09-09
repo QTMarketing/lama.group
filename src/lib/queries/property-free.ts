@@ -41,6 +41,7 @@ export const LIST_PROPERTIES_TAX_FREE = /* GraphQL */ `
       after: $after
       where: {
         search: $search
+        status: PUBLISH
         orderby: [{ field: DATE, order: DESC }]
       }
     ) {

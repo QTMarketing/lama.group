@@ -62,8 +62,10 @@ export default async function LeasingIndex({ searchParams }: Props) {
     }
     
     // Filter by price and size
-    const p = Number(n?.price ?? n?.acf?.price ?? NaN);
-    const s = Number(n?.acf?.sizeacres ?? NaN);
+    const rawPrice = n?.price ?? (n as any)?.acf?.price;
+    const p = typeof rawPrice === 'string' ? Number(rawPrice.replace(/[^0-9.]/g, '')) : Number(rawPrice ?? NaN);
+    const rawSize = (n as any)?.acf?.sizeacres ?? (n as any)?.acf?.sizeAcres;
+    const s = typeof rawSize === 'string' ? Number(rawSize.replace(/[^0-9.]/g, '')) : Number(rawSize ?? NaN);
     if (priceMin !== undefined && !(p >= priceMin)) return false;
     if (priceMax !== undefined && !(p <= priceMax)) return false;
     if (sizeMin  !== undefined && !(s >= sizeMin))  return false;
