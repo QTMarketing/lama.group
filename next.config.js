@@ -30,7 +30,7 @@ const nextConfig = {
     return [
       {
         source: '/about-us',
-        destination: '/whoweare',
+        destination: '/who-we-are',
         permanent: true,
       },
       {
