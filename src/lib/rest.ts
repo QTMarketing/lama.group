@@ -36,3 +36,12 @@ export async function fetchWithHeadlessKey(url: string, options: RequestInit = {
     },
   });
 }
+
+// Fetch a Property CPT by slug via REST (to access ACF when not exposed in GraphQL)
+export async function fetchPropertyBySlugREST(slug: string) {
+  const url = `${BASE}/wp/v2/property?slug=${encodeURIComponent(slug)}&_embed=1`;
+  const res = await fetchWithHeadlessKey(url);
+  if (!res.ok) return null;
+  const arr = await res.json();
+  return Array.isArray(arr) && arr[0] ? arr[0] : null;
+}

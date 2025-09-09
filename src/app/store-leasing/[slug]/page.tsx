@@ -3,6 +3,7 @@ import { PROPERTY_DETAIL_FREE } from "@/lib/queries/property-detail-free";
 import { fetchGraphQL } from "@/lib/cms";
 import { acfImg } from "@/lib/normalizeImage";
 import { formatSize, buildGoogleEmbedNoKey } from "@/lib/format";
+import { fetchPropertyBySlugREST } from "@/lib/rest";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
@@ -44,7 +45,16 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
 
   const hero = (p?.featuredImage?.node?.sourceUrl ? { url: p.featuredImage.node.sourceUrl, alt: p.title } : null);
 
-  const fullAddress = ""; // not exposed in GraphQL yet
+  // Try to enrich with REST ACF if available
+  let fullAddress = "";
+  let mapEmbedFromACF = "";
+  try {
+    const restProperty = await fetchPropertyBySlugREST(slug);
+    const acf = restProperty?.acf || {};
+    const parts = [acf.address, acf.city, acf.state, acf.zip].filter(Boolean);
+    fullAddress = parts.join(", ");
+    mapEmbedFromACF = acf.mapembedurl || "";
+  } catch {}
 
   const priceVisible = (p?.priceVisibility || "login") !== "login" || isAuthed;
   // const contactVisible = p?.acf?.contactvisibility !== "login" || isAuthed;
@@ -75,7 +85,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
 
   const gallery: { url: string; alt?: string }[] = [];
 
-  const embedSrc = buildGoogleEmbedNoKey(fullAddress, 15);
+  const embedSrc = mapEmbedFromACF || (fullAddress ? buildGoogleEmbedNoKey(fullAddress, 15) : "");
 
   return (
     <main className="mx-auto max-w-7xl px-4 pb-16 font-sans">
@@ -150,15 +160,15 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
             </>
           )}
 
-          <SectionTitle className="mt-10">Map & Area</SectionTitle>
-          {fullAddress && <p className="mt-2 text-[16px] leading-[24px] text-slate-700">📍 {fullAddress}</p>}
-          <div className="mt-3 h-[260px] overflow-hidden rounded-[16px] border border-slate-200 bg-slate-100">
-            {embedSrc ? (
-              <iframe src={embedSrc} className="h-full w-full" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-slate-500">Interactive map coming soon</div>
-            )}
-          </div>
+          {embedSrc && (
+            <>
+              <SectionTitle className="mt-10">Map & Area</SectionTitle>
+              {fullAddress && <p className="mt-2 text-[16px] leading-[24px] text-slate-700">📍 {fullAddress}</p>}
+              <div className="mt-3 h-[260px] overflow-hidden rounded-[16px] border border-slate-200 bg-slate-100">
+                <iframe src={embedSrc} className="h-full w-full" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+              </div>
+            </>
+          )}
         </section>
 
         {/* SIDEBAR */}
