@@ -53,12 +53,7 @@ export const LIST_PROPERTIES_TAX_FREE = /* GraphQL */ `
         regions   { nodes { slug name } }
         price priceVisibility
         contactName contactPhone contactEmail contactVisibility
-        acf: propertyFields {
-          address city state zip
-          sizeacres sizesqft price pricevisibility
-          contactname contactphone contactemail contactvisibility
-          heroimage { sourceUrl altText }
-        }
+        # Note: ACF group omitted here to avoid schema mismatch
       }
     }
   }
