@@ -51,9 +51,14 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
   try {
     const restProperty = await fetchPropertyBySlugREST(slug);
     const acf = restProperty?.acf || {};
-    const parts = [acf.address, acf.city, acf.state, acf.zip].filter(Boolean);
+    // Accept both snake_case and camelCase variants
+    const addr = acf.address || acf.Address;
+    const city = acf.city || acf.City;
+    const state = acf.state || acf.State;
+    const zip = acf.zip || acf.zipCode || acf.Zip || acf.ZipCode;
+    const parts = [addr, city, state, zip].filter(Boolean);
     fullAddress = parts.join(", ");
-    mapEmbedFromACF = acf.mapembedurl || "";
+    mapEmbedFromACF = acf.mapembedurl || acf.mapEmbedUrl || "";
   } catch {}
 
   const priceVisible = (p?.priceVisibility || "login") !== "login" || isAuthed;
