@@ -29,6 +29,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/about-us',
+        destination: '/whoweare',
+        permanent: true,
+      },
+      {
         source: "/auth",
         has: [{ type: "query", key: "mode", value: "login" }],
         destination: "/login",
