@@ -6,6 +6,8 @@ import { LoginLink, SignupLink } from "@/components/AuthLinks";
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Menu, X, User, LogOut } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
+import PartnershipDealerFormModal from "@/components/PartnershipDealerFormModal";
+import PartnershipDealerForm from "@/components/PartnershipDealerForm";
 
 // LaMa Logo Component
 const LaMaLogo = () => (
@@ -27,6 +29,7 @@ export function MainNavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [isDealershipFormOpen, setIsDealershipFormOpen] = useState(false);
   const pathname = usePathname();
   const search = useSearchParams();
   const { data: session } = useSession();
@@ -51,11 +54,8 @@ export function MainNavBar() {
     };
   }, []);
 
-  const handleCallClick = () => {
-    const confirmed = window.confirm('Book a strategy session with LaMa Group?');
-    if (confirmed) {
-      window.location.href = '/contact';
-    }
+  const handleDealershipFormClick = () => {
+    setIsDealershipFormOpen(true);
   };
 
   // Don't render until mounted to prevent hydration mismatch
@@ -157,10 +157,10 @@ export function MainNavBar() {
                 );
               })()}
               <button
-                onClick={handleCallClick}
+                onClick={handleDealershipFormClick}
                 className="rounded-full px-5 py-2 text-sm font-semibold text-white bg-[#FF8800] hover:bg-[#FF9900] transition-colors"
               >
-                Book A Session
+                Dealership Form
               </button>
             </div>
 
@@ -232,17 +232,27 @@ export function MainNavBar() {
               })()}
               <button
                 onClick={() => {
-                  handleCallClick();
+                  handleDealershipFormClick();
                   setIsMobileMenuOpen(false);
                 }}
                 className="w-full rounded-full px-5 py-3 text-sm font-semibold text-white bg-[#FF8800] hover:bg-[#FF9900] transition-colors"
               >
-                Book A Session
+                Dealership Form
               </button>
             </div>
           </div>
         </div>
       )}
+      
+      {/* Partnership Dealer Form Modal */}
+      <PartnershipDealerFormModal
+        isOpen={isDealershipFormOpen}
+        onClose={() => setIsDealershipFormOpen(false)}
+        sourceUrl="/store-leasing"
+        formSelector="#partnership-dealer-opportunities-form"
+        title="Partnership Dealer Opportunities Form"
+        reactContent={<PartnershipDealerForm inline />}
+      />
     </div>
   );
 } 

@@ -32,6 +32,12 @@ export default async function HomepageBlog() {
 
   try {
     posts = await getRecentPostsForHomepage(3);
+    
+    // If no posts were returned (API not available or no posts), use fallback
+    if (!posts || posts.length === 0) {
+      posts = fallbackPosts.slice(0, 3);
+      isFallback = true;
+    }
   } catch (err) {
     console.error('Homepage blog fetch failed:', err);
     posts = fallbackPosts.slice(0, 3);

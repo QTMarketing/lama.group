@@ -21,103 +21,16 @@ const slides: SlideData[] = [
     secondaryCTALabel: "Visit Store Leasing",
     secondaryCTALink: "/store-leasing",
     image: "/gas-station_8k (1).jpg"
-  },
-  {
-    id: 2,
-    title: "Wholesale Distribution",
-    description: "Partner with Lama Wholesale to improve supply chains and inventory.",
-    secondaryCTALabel: "Visit Wholesale Site",
-    secondaryCTALink: "https://lamawholesale.com",
-    image: "/Lama Wholesale.avif"
-  },
-  {
-    id: 3,
-    title: "Fuel Branding & Supply",
-    description: "Reliable branded fuel and supply solutions with Quicktrack Fuel.",
-    secondaryCTALabel: "Visit Fuel Site",
-    secondaryCTALink: "https://quicktrackfuel.com",
-    image: "/QuickTrackFuel.avif"
-  },
-  {
-    id: 4,
-    title: "Construction & Renovation",
-    description: "Renovate or build with confidence using our professional construction team.",
-    secondaryCTALabel: "View More",
-    secondaryCTALink: "/construction-renovation",
-    image: "/Construction & Renovation.jpg"
-  },
-  {
-    id: 5,
-    title: "Maintenance & Support",
-    description: "Ongoing support and repairs to keep your operations smooth.",
-    secondaryCTALabel: "Learn More",
-    secondaryCTALink: "/maintenance-support",
-    image: "/Maintenance & Support.jpg"
   }
 ];
 
 export default function HeroSection() {
   const router = useRouter();
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, []);
-
-  const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-    setIsAutoPlaying(false);
-  }, []);
-
-  // const goToSlide = useCallback((index: number) => {
-  //   setCurrentSlide(index);
-  //   setIsAutoPlaying(false);
-  // }, []);
-
-  const handleMouseEnter = useCallback(() => {
-    setIsAutoPlaying(false);
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    setIsAutoPlaying(true);
-  }, []);
-
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (event.key === 'ArrowLeft') {
-      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-    } else if (event.key === 'ArrowRight') {
-      nextSlide();
-    } else if (event.key === 'Escape') {
-      setIsAutoPlaying(false);
-    }
-  }, [nextSlide]);
-
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, nextSlide]);
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
 
   const getDesignatedEmail = (title: string): string => {
     switch (title) {
       case "Store Leasing & Management":
         return "Susanna@quicktrackinc.com";
-      case "Fuel Branding & Supply":
-        return "sandy.malla@quicktrackinc.com";
-      case "Wholesale Distribution":
-        return "shakil@quicktrackinc.com";
-      case "Construction & Renovation":
-        return "ram@quicktrackinc.com";
       default:
         return "info@lamagroup.com";
     }
@@ -129,10 +42,8 @@ export default function HeroSection() {
       style={{ 
         height: '680px'
       }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       role="region"
-      aria-label="Lama Group Services Slider"
+      aria-label="Lama Group Services"
     >
       {/* Main Slider Container */}
       <div className="relative w-full h-full flex items-center justify-center">
@@ -140,12 +51,9 @@ export default function HeroSection() {
           {slides.map((slide, index) => (
             <div
               key={slide.id}
-              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
-              }`}
+              className="absolute inset-0 opacity-100"
               role="group"
-              aria-label={`Slide ${index + 1} of ${slides.length}: ${slide.title}`}
-              aria-hidden={index !== currentSlide}
+              aria-label={`${slide.title}`}
             >
               {/* Full background image for the entire hero section */}
               <div
@@ -217,45 +125,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Left/Right Navigation Buttons */}
-      <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-[90px] sm:px-4 z-20 pointer-events-none">
-        <button
-          type="button"
-          onClick={prevSlide}
-          className="pointer-events-auto inline-flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/90 hover:bg-white text-gray-900 shadow-md hover:shadow-lg transition focus:outline-none focus-visible:ring-4 focus-visible:ring-white/60"
-          aria-label="Previous slide"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          onClick={nextSlide}
-          className="pointer-events-auto inline-flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/90 hover:bg-white text-gray-900 shadow-md hover:shadow-lg transition focus:outline-none focus-visible:ring-4 focus-visible:ring-white/60"
-          aria-label="Next slide"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-      </div>
-
-      {/* Progress Bar */}
-      <div className="absolute bottom-0 left-0 w-full h-1.5 bg-white/20 z-10">
-        <div
-          className="h-full bg-gradient-to-r from-white to-white/80 transition-all duration-1000 ease-linear shadow-sm"
-          style={{
-            width: `${((currentSlide + 1) / slides.length) * 100}%`
-          }}
-          aria-label={`Slide ${currentSlide + 1} of ${slides.length}`}
-        />
-      </div>
-
-      {/* Slide Counter for Screen Readers */}
-      <div className="sr-only" aria-live="polite">
-        Slide {currentSlide + 1} of {slides.length}: {slides[currentSlide]?.title}
-      </div>
     </section>
   );
 } 

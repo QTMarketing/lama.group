@@ -63,8 +63,15 @@ export function mapPost(p: any): MappedPost {
 }
 
 async function fetchJson(path: string, params?: Record<string, any>) {
+  if (!API_BASE) {
+    throw new Error('WordPress API is not configured');
+  }
+  
   const url = wpUrl(path, params);
-  const res = await fetch(url, { next: { revalidate: 60 } });
+  const res = await fetch(url, { 
+    next: { revalidate: 60 },
+    signal: AbortSignal.timeout(10000) // 10 second timeout
+  });
   if (!res.ok) throw new Error(`WP REST ${res.status}: ${await res.text()}`);
   return res.json();
 }
@@ -160,19 +167,38 @@ export async function getRecentPosts(limit: number, excludeIds: number[] = []): 
 // New function specifically for homepage blog section
 export async function getRecentPostsForHomepage(limit: number): Promise<MappedPost[]> {
   try {
-    const url = `${process.env.NEXT_PUBLIC_WP_API}/wp/v2/posts?_embed&per_page=${limit}`;
-    const res = await fetch(url, { next: { revalidate: 60 } }); // ISR: refresh every 60s
+    // Check if API_BASE is available
+    if (!API_BASE) {
+      console.warn('NEXT_PUBLIC_WP_API is not configured, returning empty array');
+      return [];
+    }
+
+    const url = `${API_BASE}/wp/v2/posts?_embed&per_page=${limit}`;
+    const res = await fetch(url, { 
+      next: { revalidate: 60 },
+      // Add timeout to prevent hanging
+      signal: AbortSignal.timeout(10000) // 10 second timeout
+    });
 
     if (!res.ok) {
+      console.error(`WordPress API returned ${res.status}: ${res.statusText}`);
       throw new Error(`Failed to fetch posts: ${res.status}`);
     }
 
     const posts = await res.json();
 
+    if (!Array.isArray(posts)) {
+      console.error('WordPress API returned invalid data format');
+      return [];
+    }
+
     return posts.map((post: any) => mapPost(post));
   } catch (error) {
     console.error('Failed to fetch recent posts for homepage:', error);
-    throw error;
+    
+    // Return empty array instead of throwing to prevent app crashes
+    // The HomepageBlog component will handle the fallback
+    return [];
   }
 }
 
